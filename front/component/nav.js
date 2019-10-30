@@ -10,6 +10,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import LoginScreen from '../component/sign-in';
 import HomeScreen from '../component/home';
+import Profilescreen from '../component/profile'
 
 // const TabNavigator = createBottomTabNavigator(
 //     {
@@ -43,7 +44,7 @@ import HomeScreen from '../component/home';
 //    );;
 var StackNavigator = createStackNavigator({
   Home: {
-    screen: LoginScreen,
+    screen: Profilescreen,
     navigationOptions: () => ({
       header: null
     })
