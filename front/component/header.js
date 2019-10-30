@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native'
 import { Header } from "react-native-elements"
+import { Icon } from 'react-native-elements'
 
-class Header extends Component {
-    constructor() {
-        super();
-       
+
+class HeaderHome extends Component {
+    constructor(props){
+        super(props)
     }
+
+handleSubmit=()=>{
+        
+    console.log('clickonpressreturn')
+    this.props.click()
+}
     render() {
         return (
-            <View style={styles.container}>
                 <Header
-                leftComponent={{ icon: 'chevron-left', color: '#CCA43B', }}
+                leftComponent={<TouchableOpacity onPress={()=>{this.handleSubmit}}>
+                <Icon
+                color='#fff'
+                name='chevron-left' />
+                </TouchableOpacity>}
                 centerComponent={{ text: 'CONNEXION', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
                 containerStyle={{
                     backgroundColor: '#101D35',
@@ -20,10 +30,9 @@ class Header extends Component {
                     justifyContent: 'space-around',
                 }}
                 />
-                </View>
 
 );
 }
 }
 
-export default Header;
+export default HeaderHome;

@@ -4,11 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { createAppContainer } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-// import SettingsScreen from "../screens/settingsScreen";
-
-// import DetailsScreen from "../screens/DetailsScreen";
-
-import LoginScreen from '../component/sign-in';
+import SignScreen from './signUp';
+import LoginScreen from './signIn';
 import HomeScreen from '../component/home';
 
 // const TabNavigator = createBottomTabNavigator(
@@ -43,12 +40,23 @@ import HomeScreen from '../component/home';
 //    );;
 var StackNavigator = createStackNavigator({
   Home: {
+    screen: HomeScreen,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+  SignUP: {
+    screen: SignScreen,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+  SignIn: {
     screen: LoginScreen,
     navigationOptions: () => ({
       header: null
     })
   },
- 
 
 }
 );
