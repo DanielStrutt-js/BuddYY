@@ -9,6 +9,7 @@ import LoginScreen from './component/sign-up';
 //import HomeScreen from './component/home';
 
 import Navigation from './component/nav';
+import Map from './component/map'
 
 export default function App() {
   return (
