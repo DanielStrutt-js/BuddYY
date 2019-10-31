@@ -18,9 +18,9 @@ router.post('/signUp', async function(req, res, next) {
     res.json({result: false, message:'Cet utilisateur existe déjà'});    
   }else{
    var NewUser = new userModel({
-      lastName: req.body.lastName,
-      firstname: req.body.first_name,
-      emailBuddy: req.body.email,
+      lastname: req.body.lastname,
+      firstname: req.body.firstname,
+      emailBuddy: req.body.emailBuddy,
       password: req.body.password,
     });
 
