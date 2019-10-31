@@ -1,20 +1,25 @@
 const mongoose = require('mongoose');
-
-
-const userSchema = mongoose.Schema({
-
+var hobbySchema = mongoose.Schema({
+    name: String,
+});
+var bandsSchema = mongoose.Schema({
+    name: String,
+});
+var drinksSchema = mongoose.Schema({
+    name: String,
+});
+var userSchema = mongoose.Schema({
     name: String,
     firstname: String,
     lastname: String,
     password: String,
-    email: String,
+    emailBuddy: String,
     img: String,
     job: String,
-    hobby: Array,
-    bands: Array,
-    drinks: Array
+    hobby: [hobbySchema],
+    bands: [bandsSchema],
+    drinks: [drinksSchema]
 });
 
-const userModel = mongoose.model('users', userSchema);
 
-module.exports = userModel;
+module.exports = mongoose.model('users', userSchema);

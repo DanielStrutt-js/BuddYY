@@ -58,6 +58,12 @@ var StackNavigator = createStackNavigator({
       header: null
     })
   },
+  Profile: {
+    screen: Profilescreen,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
 
 }
 );

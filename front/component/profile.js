@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text,TextInput,ScrollView} from 'react-native';
 import { Avatar,Input, Button, Header,} from 'react-native-elements';
-import ButtonHome from './button'
+import ButtonHome from './button';
+import Avatar from 'react-native-interactive-avatar';
+
 
 export default class Profilescreen extends React.Component{
     constructor(){
@@ -70,16 +72,18 @@ export default class Profilescreen extends React.Component{
                         justifyContent: 'space-around',
                       }}
                         />
+                 <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center',width:"90%" }}>
 
                              <Avatar
                                 size='xlarge'
                             rounded
                             containerStyle={styles.Avatar}
-                            
+                            showEditButton
                             source={{
                                 uri:
                                 '',
                             }}
+                            
                             />
                        
 
@@ -113,7 +117,7 @@ export default class Profilescreen extends React.Component{
                                 value={this.state.drink}
                             />
                         <Input containerStyle={styles.Input}
-                                inputContainerStyle={{ borderBottomWidth:0}}
+                                inputContainerStyle={{ borderBottomWidth:0, height: 40}}
                                 placeholder='groupe préférés'
                                 labelStyle={{ marginLeft : 15}}
                                 onChangeText={(value) => this.setState({bands: value})} 
@@ -126,7 +130,9 @@ export default class Profilescreen extends React.Component{
                            
 
 
+                        </View>   
                         </View>         
+      
                 
         )
     }
@@ -139,5 +145,5 @@ const styles = StyleSheet.create({
     logo : {justifyContent:'center',alignItems:'center', margin:20},
     Avatar: { borderWidth: 4, borderColor: '#CCA43B', backgroundColor:'#101D35',  marginBottom:15, marginTop:15},
     Input : {  backgroundColor:'#fff' , borderRadius : 15, borderWidth : 4, marginTop: 10,
-    borderColor:'#CCA43B', width: '85%' }
+    borderColor:'#CCA43B'}
     })
