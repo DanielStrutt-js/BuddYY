@@ -10,7 +10,9 @@ export default class SignUp extends React.Component {
         super() 
         this.state={
             firstname:'',
+            lastname:'',
             email:'',
+            password:'',
         }
     }
 

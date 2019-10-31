@@ -6,7 +6,8 @@ import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import SignScreen from './signUp';
 import LoginScreen from './signIn';
-import HomeScreen from '../component/home';
+import HomeScreen from './home';
+//import ChatScreen from './chat';
 
 // const TabNavigator = createBottomTabNavigator(
 //     {
@@ -57,6 +58,10 @@ var StackNavigator = createStackNavigator({
       header: null
     })
   },
+//   Chat: {    
+//     screen: ChatScreen,     
+//    navigationOptions: () => ({ title: "Chat Screen" })   
+//  },
 
 }
 );

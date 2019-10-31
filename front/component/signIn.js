@@ -4,6 +4,7 @@ import {Input, Button} from "react-native-elements"
 import HeaderHome from './header'
 import ButtonHome from './button'
 
+
 class SignIn extends Component {
     constructor(){
         super() 
@@ -16,14 +17,14 @@ class SignIn extends Component {
     handleSubmit=()=>{
         
         console.log('clickonpress')
-        console.log(this)
+        
         this.props.navigation.navigate('Home')
     }
 
     handleReturn=()=>{
         
-        console.log('clickonpress')
-        console.log(this)
+        console.log('clickonpress2')
+       
         this.props.navigation.navigate('Home')
     }
 
@@ -51,6 +52,7 @@ class SignIn extends Component {
                         </TouchableOpacity>
                         
                                 <ButtonHome Title='VALIDER' click={this.handleSubmit}/>
+                                
                        
                  </View>
                 

@@ -62,7 +62,7 @@ render() {
           autoCapitalize = "none"
           onChangeText={(value)=> this.setState({email:value})}
           /> */}
-<Button
+<Button   
     title="S'inscrire"
     buttonStyle= {{ backgroundColor:'#101D35'}}
     titleStyle= {{color:'#CCA43B', textAlign:'center'}}
@@ -79,10 +79,6 @@ render() {
   onPress={this.handleSignIn}
 />
 </ImageBackground>
-        
-
-
-
 
         );
    } }

@@ -2,24 +2,18 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native'
 import { Header } from "react-native-elements"
 import { Icon } from 'react-native-elements'
-
+import { withNavigation } from 'react-navigation';
 
 class HeaderHome extends Component {
     constructor(props){
         super(props)
     }
-
-handleSubmit=()=>{
-        
-    console.log('clickonpressreturn')
-    this.props.click()
-}
     render() {
         return (
                 <Header
-                leftComponent={<TouchableOpacity onPress={()=>{this.handleSubmit}}>
+                leftComponent={<TouchableOpacity onPress={()=> this.props.navigation.navigate('Home')}>
                 <Icon
-                color='#fff'
+                color='#CCA43B'
                 name='chevron-left' />
                 </TouchableOpacity>}
                 centerComponent={{ text: 'CONNEXION', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
@@ -35,4 +29,4 @@ handleSubmit=()=>{
 }
 }
 
-export default HeaderHome;
+export default withNavigation(HeaderHome);
