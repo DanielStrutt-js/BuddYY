@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { Header , Input} from "react-native-elements"
+import {Input, Button} from "react-native-elements"
+import HeaderHome from './header'
+import ButtonHome from './button'
 
 class SignIn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {  };
+    constructor(){
+        super() 
+        this.state={
+            firstname:'',
+            email:'',
+        }
     }
+
+    handleSubmit=()=>{
+        
+        console.log('clickonpress')
+        console.log(this)
+        this.props.navigation.navigate('Home')
+    }
+
+    handleReturn=()=>{
+        
+        console.log('clickonpress')
+        console.log(this)
+        this.props.navigation.navigate('Home')
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Header
-                    leftComponent={{ icon: 'chevron-left', color: '#CCA43B', }}
-                    centerComponent={{ text: 'CONNEXION', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
-                    containerStyle={{
-                        backgroundColor: '#101D35',
-                        borderBottomColor:'#CCA43B',
-                        borderBottomWidth:3,
-                        justifyContent: 'space-around',
-                      }}
-                 />
+                <HeaderHome click={this.handleReturn} />
                  <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center' }}>
                         <View style={styles.logo}>
                                 <Image source={require('../assets/logos/logo.png')}/>
@@ -38,9 +49,12 @@ class SignIn extends Component {
                         <TouchableOpacity >
                             <Text style={{ color: '#CCA43B', fontSize:14 , margin : 20 }}>Mot de passe oublié?</Text>
                         </TouchableOpacity>
+                        
+                                <ButtonHome Title='VALIDER' click={this.handleSubmit}/>
                        
                  </View>
-               
+                
+                        
             </View>
         );
     }
@@ -51,6 +65,7 @@ const styles = StyleSheet.create({
     logo : {justifyContent:'center',alignItems:'center', margin:20},
     Input : {  backgroundColor:'#fff' , borderRadius : 15, borderWidth : 4, marginTop: 10,
     borderColor:'#CCA43B', }
+
 })
 
 export default SignIn;

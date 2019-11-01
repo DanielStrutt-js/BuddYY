@@ -11,6 +11,10 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 //import LoginScreen from '../component/sign-in';
 //import HomeScreen from '../component/home';
 import Map from '../component/map'
+//import SignScreen from './signUp';
+//import LoginScreen from './signIn';
+//import HomeScreen from '../component/home';
+
 // const TabNavigator = createBottomTabNavigator(
 //     {
 //     login: LoginScreen,
@@ -48,7 +52,6 @@ var StackNavigator = createStackNavigator({
       header: null
     })
   },
- 
 
 }
 );
