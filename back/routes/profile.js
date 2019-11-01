@@ -5,6 +5,30 @@ var barsModel = require('../models/bar');
 var eventModel = require('../models/event')
 
 
+ 
+  /* POST newProfile page. */
+  router.put('/newProfile', async function(req, res, next) {
+    //updateOne
+          var user = await userModel.updateOne(
+
+            {id:req.body._id},
+
+            {img: req.body.img,
+              job: req.body.job,
+              hobby: req.body.hobby,
+              bands: req.body.bands,
+              drinks: req.body.drinks}
+          
+          )
+          
+              // user.save(function(error, user) {
+              // console.log("USER SAVED ---->", user)
+              // res.json({result: true});
+      // });
+
+     
+    } );
+
 
 /* GET profile page. */
 router.get('/', function(req, res, next) {
@@ -26,7 +50,7 @@ router.get('/', function(req, res, next) {
   });
   
   /* POST profile page. */
-  router.post('/update', async function(req, res, next) {
+  router.put('/update', async function(req, res, next) {
   //updateOne
         var user = await userModel.updateOne({
           image: req.body.img,

@@ -18,9 +18,9 @@ router.post('/signUp', async function(req, res, next) {
     res.json({result: false, message:'Cet utilisateur existe déjà'});    
   }else{
    var NewUser = new userModel({
-      lastName: req.body.lastName,
-      firstname: req.body.first_name,
-      emailBuddy: req.body.email,
+      lastname: req.body.lastname,
+      firstname: req.body.firstname,
+      emailBuddy: req.body.emailBuddy,
       password: req.body.password,
     });
 
@@ -50,22 +50,22 @@ router.get('/signIn', async function(req, res, next) {
 });
 
 
-/* POST newProfile page. */
-router.post('/newProfile', async function(req, res, next) {
+// /* POST newProfile page. */
+// router.post('/newProfile', async function(req, res, next) {
   
-  const newProfile = await userModel.updateOne({
-    image: req.body.img,
-    job: req.body.job,
-    hobby: req.body.hobby,
-    bands: req.body.bands,
-    drinks: req.body.drinks
-  });
+//   const newProfile = await userModel.updateOne({
+//     image: req.body.img,
+//     job: req.body.job,
+//     hobby: req.body.hobby,
+//     bands: req.body.bands,
+//     drinks: req.body.drinks
+//   });
 
-  newProfile.save(function(error, profile) {
-    console.log("PROFILE SAVED ---->", profile)
-    res.json({profile});
-  });
+//   newProfile.save(function(error, profile) {
+//     console.log("PROFILE SAVED ---->", profile)
+//     res.json({profile});
+//   });
 
-});
+// });
 
 module.exports = router;
