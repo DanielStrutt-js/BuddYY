@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native'
 import { Header } from "react-native-elements"
 import { Icon } from 'react-native-elements'
+import {withNavigation} from 'react-navigation'
 
 
 class HeaderHome extends Component {
@@ -35,4 +36,4 @@ handleSubmit=()=>{
 }
 }
 
-export default HeaderHome;
+export default withNavigation(HeaderHome);
