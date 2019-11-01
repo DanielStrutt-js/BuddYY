@@ -6,8 +6,10 @@ import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import SignScreen from './signUp';
 import LoginScreen from './signIn';
-import HomeScreen from '../component/home';
-import Profilescreen from '../component/profile'
+import HomeScreen from './home';
+//import ChatScreen from './chat';
+import Profilescreen from './profile'
+import Map from './map'
 
 // const TabNavigator = createBottomTabNavigator(
 //     {
@@ -29,7 +31,7 @@ import Profilescreen from '../component/profile'
 //     //    }else if (navigation.state.routeName == 'PageB') {
 //     //     iconName = 'arrow-circle-left';
 //        }
-   
+
 //        return <Icon name={iconName} size={25} color={tintColor} />;
 //       },
 //      }),
@@ -58,8 +60,19 @@ var StackNavigator = createStackNavigator({
       header: null
     })
   },
+//   Chat: {
+//     screen: ChatScreen,
+//    navigationOptions: () => ({ title: "Chat Screen" })
+//  },
   Profile: {
     screen: Profilescreen,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+
+  Map: {
+    screen: Map,
     navigationOptions: () => ({
       header: null
     })

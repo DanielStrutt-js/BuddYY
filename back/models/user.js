@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 var hobbySchema = mongoose.Schema({
     name: String,
 });
