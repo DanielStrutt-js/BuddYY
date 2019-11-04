@@ -31,12 +31,40 @@ router.post('/signUp', async function(req, res, next) {
   } 
   } )
     console.log('There is no user with this email ! So we add a user')  
+
 } );
+
+
+
+  /* POST newProfile page. */
+  router.put('/newProfile', async function(req, res, next) {
+    //updateOne
+    console.log(req.query)
+    console.log(req.body)
+          var user = await userModel.updateOne(
+            {_id:req.query.id},
+         
+            {img: req.body.img,
+              job: req.body.job,
+              hobby: req.body.hobby,
+              bands: req.body.bands,
+              drinks: req.body.drinks}
+          
+          )
+          
+              // user.save(function(error, user) {
+              // console.log("USER SAVED ---->", user)
+              // res.json({result: true});
+      // });
+
+     res.json({result:true})
+    } );
+
 
 /* GET signIn page. *////
 router.get('/signIn', async function(req, res, next) {
 
-  const user = await userModel.findOne({
+  var user = await userModel.findOne({
     email:req.query.email,
     password: req.query.password
   })

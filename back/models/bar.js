@@ -9,7 +9,7 @@ const barsSchema = mongoose.Schema({
     barAdress: String,
     longitude: Number,
     latitude: Number,
-   // description: String,
+    description: String,
 });
 
 const barsModel = mongoose.model('bars', barsSchema);

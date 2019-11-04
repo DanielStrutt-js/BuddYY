@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
 
 
 
-/* GET bar page. */
-router.get('/barprox',async function(req, res, next) {
-    //find
-    var barsFind = await barsModel.find();
-    res.json(barsFind)
-});
+// /* GET bar page. */
+// router.get('/barprox',async function(req, res, next) {
+//     //find
+//     var barsFind = await barsModel.find();
+//     res.json(barsFind)
+// });
 
 
 
