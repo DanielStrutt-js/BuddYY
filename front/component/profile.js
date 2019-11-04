@@ -4,13 +4,15 @@ import { Avatar,Input, Button, Header,} from 'react-native-elements';
 import ButtonCustom from './button';
 import HeaderHome from './header';
 import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 
 export default class Profilescreen extends React.Component{
     constructor(){
         super()
         this.state = {
-                        img:"",            
+                        img: null,            
                         userName: '',
                         job: '',
                         hobby: '',
@@ -62,6 +64,8 @@ export default class Profilescreen extends React.Component{
 
     render(){
         
+        let { img } = this.state;
+
         return(
                 
              
@@ -69,7 +73,7 @@ export default class Profilescreen extends React.Component{
                     
                     
                     <HeaderHome
-                    centerComponent={{ text: 'PROFIL', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
+                    centerComponent={{ text: 'NOUVEAU PROFIL', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
                         />
                 <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center',width:"90%" }}>
                 <ScrollView style={{flex:1, width:'100%'}}
