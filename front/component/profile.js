@@ -30,7 +30,7 @@ export default class Profilescreen extends React.Component{
         //   drink:this.state.drink,
         //   bands:this.state.bands
         // });
-        this.props.navigation.navigate('Map')
+        this.props.navigation.navigate('Notification')
     
     //     fetch(`http://10.2.5.224:3000/Profile`, {
     //         method: 'POST',
@@ -161,7 +161,7 @@ export  class Profile extends React.Component{
         //   drink:this.state.drink,
         //   bands:this.state.bands
         // });
-        this.props.navigation.navigate('Map')
+        this.props.navigation.navigate('Notification')
     
     //     fetch(`http://10.2.5.224:3000/Profile`, {
     //         method: 'POST',

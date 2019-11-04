@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Dimensions,  Image, TouchableOpacity} from 'rea
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import Modal from "react-native-modal";
-import { Header , Input, Button } from "react-native-elements";
+import { Header , Input, Button, } from "react-native-elements";
 import TimePicker from "react-native-24h-timepicker";
 import ToggleSwitch from 'rn-toggle-switch'
 
@@ -22,17 +22,24 @@ export default class Map extends React.Component {
         currentLongitude:0,
         errorMessage: null,
         markers:[],
+        eventMarker:[],
         region:null,
         isModalVisible: false,
+        isEventModalVisible: false,
         markerTitle: null ,
         markerUri: null,
         markerDisc: null,
         markerOpenTimes: null,
+        eventMarkerTitle: null ,
+        eventMarkerUri: null,
+        eventMarkerDisc: null,
+        meventMarkerOpenTimes: null,
         status: "BarDiscription",
         statusFelicitation: false,
         time: "",
-        discCreate: "",
+        //discCreate: "",
         dayMode: true,
+        barEvent: "showBars"
         
       };
   
@@ -77,12 +84,27 @@ export default class Map extends React.Component {
        this.ShowHideTextComponentView()
     };
 
+    toggleEventModal = () => {
+      this.setState({ isEventModalVisible: !this.state.isEventModalVisible })
+     
+    };
+
    dayNightSwitch = () =>{
     {
       if(this.state.dayMode==true){
       this.setState({dayMode:false})
     }else{
       this.setState({dayMode:true})
+    }
+    }
+   }
+   
+   eventBarSwitch = () =>{
+    {
+      if(this.state.barEvent=="showBars"){
+      this.setState({barEvent:"showEvents"})
+    }else{
+      this.setState({barEvent:"showBars"})
     }
     }
    } 
@@ -95,6 +117,16 @@ export default class Map extends React.Component {
       this.setState({markerOpenTimes: markerData.openTimes})
 
       this.toggleModal()
+       
+    };
+
+    setEvent = (eventData) => {
+      this.setState({ eventMarkerTitle: eventData.title })
+      this.setState({eventMarkerUri: eventData.uri})
+      this.setState({eventMarkerDisc: eventData.description})
+      this.setState({eventMarkerOpenTimes: eventData.openTimes})
+
+      this.toggleEventModal()
        
     };
 
@@ -134,6 +166,13 @@ export default class Map extends React.Component {
     render() {
       
      console.log(this.state.markerSelected)
+
+     var eventData = [
+      {title:"Frog&Rosbiff", latitude: 48.554626, longitude:2.355272, description:"Bar edfq QD DQ SD dSF d sfsqdf f sdf df fdsq dsqf q fdqs ", pin:"#CCA43B", uri:"https://www.frogpubs.com/pics/data/pubs/illustrations/1-178-1200x650.jpg", openTimes: "17h " },
+      {title:"The Long Hop", latitude: 48.550509, longitude:2.349558, description:"fsfqfqvggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg fqds f f sdf sdf sdf sdf qsfd  fdqsfd qsdfsqd f qdf ", pin:"#CCA43B", uri: "https://media-cdn.tripadvisor.com/media/photo-s/0a/a8/08/d6/bar-interieur.jpg", openTimes: "15h"},
+      {title:"Cafe-Oz", latitude: 48.855501, longitude: 2.333917, description:"d fsdf ds f dsf sf sdf dsf dsf sd fs fqds fsdf sdf ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ", pin:"#CCA43B" ,uri: "http://www.lesbarres.com/media/image/slideshow/43fa46ed146f6516f6f46f7e2b367c215f23fd18.jpg", openTimes: "17h "},
+      {title:"LeChina", latitude: 48.843952,  longitude:2.573512, description:"d fsqd fsd fsqd fds fqdsd fdsfdsf q fqdsf qsdf dsfsdfqsdfqs ", pin:"#CCA43B", uri:"https://i.imgur.com/urCdvqH.jpg", openTimes: "16h "},
+ ]
       
       var markerData = [
         {title:"Frog&Rosbiff", latitude: 48.864626, longitude:2.350272, description:"Bar edfq QD DQ SD dSF d sfsqdf f sdf df fdsq dsqf q fdqs ", pin:"#CCA43B", uri:"https://www.frogpubs.com/pics/data/pubs/illustrations/1-178-1200x650.jpg", openTimes: "17h a 0.30h" },
@@ -143,7 +182,7 @@ export default class Map extends React.Component {
    ]
    var swipe=["up", "down", "left", "right"]
       
-   console.log(this.state.dayMode)
+   console.log(this.state.barEvent)
 
    if(this.state.dayMode===true){
      var mapStyle=[
@@ -245,17 +284,6 @@ export default class Map extends React.Component {
       },
       {
         "featureType": "road",
-        "stylers": [
-          {
-            "color": "#9d7dbd"
-          },
-          {
-            "weight": 1
-          }
-        ]
-      },
-      {
-        "featureType": "road",
         "elementType": "geometry",
         "stylers": [
           {
@@ -269,15 +297,6 @@ export default class Map extends React.Component {
         "stylers": [
           {
             "color": "#fdfcf8"
-          }
-        ]
-      },
-      {
-        "featureType": "road.arterial",
-        "elementType": "labels",
-        "stylers": [
-          {
-            "visibility": "off"
           }
         ]
       },
@@ -300,15 +319,6 @@ export default class Map extends React.Component {
         ]
       },
       {
-        "featureType": "road.highway",
-        "elementType": "labels",
-        "stylers": [
-          {
-            "visibility": "off"
-          }
-        ]
-      },
-      {
         "featureType": "road.highway.controlled_access",
         "elementType": "geometry",
         "stylers": [
@@ -323,14 +333,6 @@ export default class Map extends React.Component {
         "stylers": [
           {
             "color": "#db8555"
-          }
-        ]
-      },
-      {
-        "featureType": "road.local",
-        "stylers": [
-          {
-            "visibility": "off"
           }
         ]
       },
@@ -397,8 +399,9 @@ export default class Map extends React.Component {
           }
         ]
       }
-    ]}else{
-      var mapStyle= [
+    ]
+      }else{
+      var mapStyle=[
         {
           "elementType": "geometry",
           "stylers": [
@@ -515,17 +518,6 @@ export default class Map extends React.Component {
         },
         {
           "featureType": "road",
-          "stylers": [
-            {
-              "color": "#9d7dbd"
-            },
-            {
-              "weight": 1
-            }
-          ]
-        },
-        {
-          "featureType": "road",
           "elementType": "geometry",
           "stylers": [
             {
@@ -552,15 +544,6 @@ export default class Map extends React.Component {
           ]
         },
         {
-          "featureType": "road.arterial",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
           "featureType": "road.highway",
           "elementType": "geometry",
           "stylers": [
@@ -580,15 +563,6 @@ export default class Map extends React.Component {
         },
         {
           "featureType": "road.highway",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
           "elementType": "labels.text.fill",
           "stylers": [
             {
@@ -602,14 +576,6 @@ export default class Map extends React.Component {
           "stylers": [
             {
               "color": "#023e58"
-            }
-          ]
-        },
-        {
-          "featureType": "road.local",
-          "stylers": [
-            {
-              "visibility": "off"
             }
           ]
         },
@@ -668,6 +634,7 @@ export default class Map extends React.Component {
           ]
         }
       ]
+      
     }
    
    return (
@@ -692,6 +659,7 @@ export default class Map extends React.Component {
                         borderBottomColor:'#CCA43B',
                         borderBottomWidth:3,
                         justifyContent: 'space-around',
+                        marginTop: 25,
                       }}/>
 
 
@@ -788,17 +756,56 @@ export default class Map extends React.Component {
             </View>
    </Modal>
 
-  
+   <Modal isVisible={this.state.isEventModalVisible}
+         onSwipeComplete={this.toggleEventModal}
+         swipeDirection={swipe}
+         style={styles.module}
+         swipeThreshold={20}
+         >
 
+            <View style={ styles.popupView }>
+              
+            <Text style={styles.barName} >{this.state.eventMarkerTitle}</Text>
+            <View style={styles.wrapper}>
+            <Image
+             style={styles.stretch}
+             source={{uri:this.state.eventMarkerUri}}
+           />
+           </View>
+           <Text style={styles.openTimeStyle}>DEBUT: {this.state.eventMarkerOpenTimes}</Text>
+           
+           <Text style={styles.discriptionStyle} >{this.state.eventMarkerDisc}</Text>
 
+           
+           
+           
+          
+          
+           
+          
+         
+         
+          
 
+          <View style={{flex:1,
+            justifyContent: 'flex-end', marginBottom: 36, width : '90%',}} >
 
-
-
-
-
-
-
+            {  this.state.status=="BarDiscription" ? <Button 
+            buttonStyle= {{ backgroundColor:'#9C2C2C',}}
+            title="rejoindre event"
+            titleStyle= {{color:'#CCA43B', textAlign:'center', }}
+            containerStyle={{ 
+             borderWidth: 3, borderColor: '#CCA43B',}}
+             onPress={this.toggleEventModal}
+             
+            />: null }
+            
+            
+             
+            </View>
+             
+            </View>
+   </Modal>
 
 
           <MapView style={styles.mapStyle}
@@ -809,14 +816,26 @@ export default class Map extends React.Component {
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,  
            }}>
+                  
+                  {  this.state.barEvent=="showBars" ?<View>
                    {markerData.map(markerData => (
-                   <Marker coordinate={{latitude: markerData.latitude, longitude: markerData.longitude}}
+            <Marker coordinate={{latitude: markerData.latitude, longitude: markerData.longitude}}
                            pinColor={markerData.pin}
                            title={markerData.title}
                            onPress={() => this.setMarker(markerData)}
                            
                            
-                    />))}
+                    />))}</View>: null }
+
+                   {  this.state.barEvent=="showEvents" ?<View>
+                   {eventData.map(eventData => (
+            <Marker coordinate={{latitude: eventData.latitude, longitude: eventData.longitude}}
+                           pinColor={eventData.pin}
+                           title={eventData.title}
+                           onPress={() => this.setEvent(eventData)}
+                           
+                           
+                    />))}</View>: null }
 
                     
                    
@@ -827,7 +846,24 @@ export default class Map extends React.Component {
               coordinate={{latitude: this.state.currentLatitude, longitude: this.state.currentLongitude}}
               />
               </MapView>
-              
+         <Header containerStyle={{
+                        backgroundColor: '#101D35',
+                        borderTopColor:'#CCA43B',
+                        borderTopWidth:3,
+                        
+                        justifyContent: 'center'
+                      }}
+                      centerComponent={ <ToggleSwitch
+                        text={{on: 'BARS', off: 'EVENTS', activeTextColor: 'white', inactiveTextColor: '#CCA43B'}}
+                        textStyle={{fontWeight: 'bold', fontSize:15}}
+                        color={{ indicator: 'white', active: '#CCA43B', inactive:  'rgba( 247, 247, 247, 1)', activeBorder: '#CCA43B', inactiveBorder: '#E9E9E9'}}
+                        active={true}
+                        disabled={false}
+                        width={100}
+                        radius={15}
+                        onValueChange={this.eventBarSwitch}
+                      />}
+                      centerContainerStyle={{marginBottom:20}} />
         </View>
       );
     }
@@ -842,7 +878,7 @@ export default class Map extends React.Component {
     },
     mapStyle: {
       width: Dimensions.get('window').width,
-      height: "90%",
+      height: "80%",
     },
     module:{
       backgroundColor: '#101D35',
