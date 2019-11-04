@@ -10,42 +10,41 @@ export default class HomeScreen extends React.Component {
             email:'',
         }
     }
-   
+
     handleSignUp=()=>{
-        
+
         console.log('clickonpress')
         console.log(this)
         this.props.navigation.navigate('SignUP')
     }
 
-
-    handleSignIn=()=>{
-        
-            console.log('clickonpress')
-            console.log(this)
-            this.props.navigation.navigate('SignIn')
-        
-        // fetch('http://10.2.5.219:3000/Sign-Up', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/x-www-form-urlencoded',
-        //     },
-        //     body : `first_name=${this.state.firstname}&email=${this.state.email}`,
-        //   }).then((response) => response.json())
-        //   .then((user) => {
-        //         console.log(user)          
-        //     })
-        //   .catch((error) => {
-        //     console.error(error);
-        //   });;
-    }
+handleSignIn=()=>{
+    
+        console.log('clickonpress')
+        console.log(this)
+        this.props.navigation.navigate('SignIn')
+    
+    // fetch('http://10.2.5.219:3000/Sign-Up', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded',
+    //     },
+    //     body : `first_name=${this.state.firstname}&email=${this.state.email}`,
+    //   }).then((response) => response.json())
+    //   .then((user) => {
+    //         console.log(user)          
+    //     })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });;
+}
   
 render() {
     console.log(this.state);
     return (
 
 <ImageBackground source={require("../assets/Home.png")} style= {{flex:1, justifyContent:"center",alignItems:"center" }}>
-  {/* <Input placeholder='INPUT WITH ICON' leftIcon={{ type: 'font-awesome', name: 'chevron-left'}}
+  {/*<Input placeholder='INPUT WITH ICON' leftIcon={{ type: 'font-awesome', name: 'chevron-left'}}
            containerStyle = {{height: 40, borderColor: 'white',borderWidth: 2, margin: 5, borderRadius: 5, width:'70%',backgroundColor:'white',opacity:0.5}}
             underlineColorAndroid = "transparent"
             placeholder = "  Aïnes "
@@ -61,7 +60,7 @@ render() {
           placeholderTextColor = "white"
           autoCapitalize = "none"
           onChangeText={(value)=> this.setState({email:value})}
-          /> */}
+    /> */}
 <Button   
     title="S'inscrire"
     buttonStyle= {{ backgroundColor:'#101D35'}}
@@ -80,5 +79,5 @@ render() {
 />
 </ImageBackground>
 
-        );
+    );
    } }

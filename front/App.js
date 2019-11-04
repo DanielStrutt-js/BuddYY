@@ -10,7 +10,7 @@ import Profilescreen from './component/profile';
 //import HomeScreen from './component/home';
 
 import Navigation from './component/nav';
-// import Chat from './component/chat';
+import Map from './component/map'
 
 export default function App() {
   return (
