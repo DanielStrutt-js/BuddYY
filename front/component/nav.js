@@ -8,6 +8,7 @@ import SignScreen from './signUp';
 import LoginScreen from './signIn';
 import HomeScreen from './home';
 //import ChatScreen from './chat';
+import Profilescreen from './profile'
 
 // const TabNavigator = createBottomTabNavigator(
 //     {
@@ -62,6 +63,12 @@ var StackNavigator = createStackNavigator({
 //     screen: ChatScreen,     
 //    navigationOptions: () => ({ title: "Chat Screen" })   
 //  },
+  Profile: {
+    screen: Profilescreen,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
 
 }
 );

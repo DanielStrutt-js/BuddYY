@@ -20,7 +20,7 @@ export default class SignUp extends React.Component {
         
         console.log('clickonpress')
         console.log(this)
-        this.props.navigation.navigate('Home')
+        this.props.navigation.navigate('Profile')
         
         // fetch('http://10.2.5.219:3000/Sign-Up', {
         //     method: 'POST',
