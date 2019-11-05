@@ -1,56 +1,65 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { View,Text,ScrollView, KeyboardAvoidingView, YellowBox,  } from 'react-native';
+import { Input, Button, ListItem } from 'react-native-elements';
 import socketIOClient from "socket.io-client";
-// console.ignoredYellowBox = ['Remote debugger'];
+console.ignoredYellowBox = ['Remote debugger'];
 
-// YellowBox.ignoreWarnings([
-//     'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
-// ]);
-
+YellowBox.ignoreWarnings([
+    'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
+]);
 
 
 class chat extends React.Component {
     constructor() {
         super();
-        this.state = { messageList:[]};
+        this.state = { messageList:[], messageToSend:""};
     
     }
     componentDidMount(){
-        //this.socket = socketIOClient("http://10.2.5.219.:3000");
-        // this.socket.on('sendMessage', (data)=> {
-        //     console.log("sendMessage", data);
-        //     var messageListCopy = [...this.state.messageList];
-        //     messageListCopy.push(data);
-        //     this.setState({messageToSend: '', messageList: messageListCopy});
-        //   });
+        this.socket = socketIOClient("http://10.2.5.219:3000/");
+        this.socket.on('sendMessage', (message)=> {
+            
+            var messageListCopy = [...this.state.messageList];
+            messageListCopy.push(message);
+            console.log("sendMessage", messageListCopy);
+            
+            this.setState({messageToSend: '', messageList: messageListCopy});
+          });
       }
     render() {
+        var message = this.state.messageList.map((data, i)=>{
+        
+            return (<ListItem
+              key={i}
+              title={`${data.user} : ${data.message}`}
+              bottomDivider
+            />)
+          }
+        )
+        console.log(this.state.messageToSend);
 
         return (
 
-        <View style={{flex:1}}>
-
-        {/* <ScrollView  style={{flex:1}}>
-        {renderMessage}
+        
+           <View style={{flex:1, backgroundColor:"#101D35"}}>
+              
+         
+        <ScrollView  style={{flex:1}}>
+        {message}
 
         </ScrollView >
 
         <KeyboardAvoidingView behavior="padding" enabled>
 
             <Input value={this.state.messageToSend} onChangeText={(messageToSend) => this.setState({messageToSend})} placeholder='your message'/>
-            <Button title="Send" onPress={()=> this.socket.emit("sendMessage", {message : this.state.messageToSend, user: 'Aïnes'}) } />
+            <Button title="Send" onPress={()=> this.socket.emit("sendMessage", {message : this.state.messageToSend, user: 'Aïnes'}) } /> 
 
-        </KeyboardAvoidingView> */}
+        </KeyboardAvoidingView>
 
         </View>
 
         
-        // <ListItem
-        //     key={i}
-        //     title={`${data.user} : ${data.message}`}
-            
-        //   />
+        
 );
     }
 }

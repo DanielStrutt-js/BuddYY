@@ -8,12 +8,13 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Profilescreen from './component/profile';
 //import LoginScreen from './component/sign-up';
 //import HomeScreen from './component/home';
-
+import chatScreen from './component/chat';
 import Navigation from './component/nav';
-import Map from './component/map'
+import Map from './component/map';
 
 export default function App() {
   return (
     <Navigation/>
   );
+  
 }

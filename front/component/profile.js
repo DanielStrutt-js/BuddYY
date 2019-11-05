@@ -125,6 +125,13 @@ export default class Profilescreen extends React.Component{
                             />  
 
                         <ButtonCustom Title='VALIDER' click={this.handleSubmit}/>
+                        <Button
+                                style={{width:100, marginTop:20}}
+                                title="Chat Screen"
+                                backgroundColor="blue"
+                                color="#d11d4d"
+                                onPress={() => this.props.navigation.navigate('Chat')}
+                                />   
 
                              
                         

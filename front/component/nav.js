@@ -9,7 +9,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import SignScreen from './signUp';
 import LoginScreen from './signIn';
 import HomeScreen from './home';
-//import ChatScreen from './chat';
+import ChatScreen from './chat';
 import Profilescreen from './profile'
 import Map from './map'
 
@@ -62,10 +62,10 @@ var StackNavigator = createStackNavigator({
       header: null
     })
   },
-//   Chat: {
-//     screen: ChatScreen,
-//    navigationOptions: () => ({ title: "Chat Screen" })
-//  },
+  Chat: {
+    screen: ChatScreen,
+   navigationOptions: () => ({ title: "Chat Screen" })
+ },
   Profile: {
     screen: Profilescreen,
     navigationOptions: () => ({
