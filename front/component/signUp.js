@@ -25,7 +25,7 @@ handleSubmit=()=>{
 
     
     
-    fetch('http://10.2.5.224:3000/users/signUp', {
+    fetch('http://10.2.5.219:3000/users/signUp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -79,8 +79,8 @@ render() {
                             inputContainerStyle={{ borderBottomWidth:0}}
                             placeholder='Email'
                             labelStyle={{ marginLeft : 15}}
-                            onChangeText={(value) => this.setState({password:value})}
-                            value={this.state.password}
+                            onChangeText={(value) => this.setState({email:value})}
+                            value={this.state.email}
                      />
 
                       <Input containerStyle={styles.Input}
