@@ -32,12 +32,14 @@ export default class Map extends React.Component {
         markerOpenTimes: null,
         eventMarkerTitle: null ,
         eventMarkerUri: null,
-        eventMarkerDisc: null,
+        eventMarkerTime: null,
+        eventMarkerParticipants:[],
+        eventMarkerCreator:null,
         meventMarkerOpenTimes: null,
         status: "BarDiscription",
         statusFelicitation: false,
         time: "",
-        //discCreate: "",
+        discCreate: "",
         dayMode: true,
         barEvent: "showBars"
         
@@ -46,8 +48,41 @@ export default class Map extends React.Component {
     }
   
       componentWillMount() {
-
+        var ctx=this;
         this._getLocationAsync();
+        fetch('http://10.2.5.226:3000/events/barList',{
+           
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+     
+          //console.log('réponse du backend --->',data)
+          ctx.setState({markers: data});
+         
+        })
+        .catch((error)=> {
+          console.log(error)
+        })
+       
+        fetch('http://10.2.5.226:3000/events/eventList',{
+           
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(eventdata) {
+     
+         // console.log('réponse du backend --->',eventdata)
+          ctx.setState({eventMarker: eventdata});
+         
+        })
+        .catch((error)=> {
+          console.log(error)
+        })
+
+        
       }
   
       
@@ -110,21 +145,22 @@ export default class Map extends React.Component {
    } 
 
     
-    setMarker = (markerData) => {
-      this.setState({ markerTitle: markerData.title })
-      this.setState({markerUri: markerData.uri})
-      this.setState({markerDisc: markerData.description})
-      this.setState({markerOpenTimes: markerData.openTimes})
+    setMarker = (markers) => {
+      this.setState({ markerTitle: markers.barName})
+      this.setState({markerUri: markers.barImg})
+      this.setState({markerDisc: markers.description})
+      this.setState({markerOpenTimes: markers.openTimes})
 
       this.toggleModal()
        
     };
 
-    setEvent = (eventData) => {
-      this.setState({ eventMarkerTitle: eventData.title })
-      this.setState({eventMarkerUri: eventData.uri})
-      this.setState({eventMarkerDisc: eventData.description})
-      this.setState({eventMarkerOpenTimes: eventData.openTimes})
+    setEvent = (eventMarker) => {
+      this.setState({ eventMarkerTitle: eventMarker.bars.barName })
+      this.setState({eventMarkerUri: eventMarker.bars.barImg})
+      this.setState({eventMarkerTime: eventMarker.eventTime})
+      this.setState({eventMarkerParticipants: eventMarker.eventParticipants})
+      this.setState({eventMarkerCreator: eventMarker.eventCreator.userName})
 
       this.toggleEventModal()
        
@@ -164,25 +200,23 @@ export default class Map extends React.Component {
   }
   
     render() {
-      
-     console.log(this.state.markerSelected)
 
-     var eventData = [
+     /*var eventData = [
       {title:"Frog&Rosbiff", latitude: 48.554626, longitude:2.355272, description:"Bar edfq QD DQ SD dSF d sfsqdf f sdf df fdsq dsqf q fdqs ", pin:"#CCA43B", uri:"https://www.frogpubs.com/pics/data/pubs/illustrations/1-178-1200x650.jpg", openTimes: "17h " },
       {title:"The Long Hop", latitude: 48.550509, longitude:2.349558, description:"fsfqfqvggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg fqds f f sdf sdf sdf sdf qsfd  fdqsfd qsdfsqd f qdf ", pin:"#CCA43B", uri: "https://media-cdn.tripadvisor.com/media/photo-s/0a/a8/08/d6/bar-interieur.jpg", openTimes: "15h"},
       {title:"Cafe-Oz", latitude: 48.855501, longitude: 2.333917, description:"d fsdf ds f dsf sf sdf dsf dsf sd fs fqds fsdf sdf ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ", pin:"#CCA43B" ,uri: "http://www.lesbarres.com/media/image/slideshow/43fa46ed146f6516f6f46f7e2b367c215f23fd18.jpg", openTimes: "17h "},
       {title:"LeChina", latitude: 48.843952,  longitude:2.573512, description:"d fsqd fsd fsqd fds fqdsd fdsfdsf q fqdsf qsdf dsfsdfqsdfqs ", pin:"#CCA43B", uri:"https://i.imgur.com/urCdvqH.jpg", openTimes: "16h "},
  ]
       
-      var markerData = [
+      /*var markerData = [
         {title:"Frog&Rosbiff", latitude: 48.864626, longitude:2.350272, description:"Bar edfq QD DQ SD dSF d sfsqdf f sdf df fdsq dsqf q fdqs ", pin:"#CCA43B", uri:"https://www.frogpubs.com/pics/data/pubs/illustrations/1-178-1200x650.jpg", openTimes: "17h a 0.30h" },
         {title:"The Long Hop", latitude: 48.850509, longitude:2.349018, description:"fsfqfqvggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg fqds f f sdf sdf sdf sdf qsfd  fdqsfd qsdfsqd f qdf ", pin:"#CCA43B", uri: "https://media-cdn.tripadvisor.com/media/photo-s/0a/a8/08/d6/bar-interieur.jpg", openTimes: "15h a 02h"},
         {title:"Cafe-Oz", latitude: 48.833401, longitude: 2.333917, description:"d fsdf ds f dsf sf sdf dsf dsf sd fs fqds fsdf sdf ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ", pin:"#CCA43B" ,uri: "http://www.lesbarres.com/media/image/slideshow/43fa46ed146f6516f6f46f7e2b367c215f23fd18.jpg", openTimes: "17h a 24h"},
         {title:"LeChina", latitude: 48.849952,  longitude:2.373512, description:"d fsqd fsd fsqd fds fqdsd fdsfdsf q fqdsf qsdf dsfsdfqsdfqs ", pin:"#CCA43B", uri:"https://i.imgur.com/urCdvqH.jpg", openTimes: "16h a 24h"},
-   ]
+   ]*/
    var swipe=["up", "down", "left", "right"]
-      
-   console.log(this.state.barEvent)
+    
+   
 
    if(this.state.dayMode===true){
      var mapStyle=[
@@ -637,6 +671,11 @@ export default class Map extends React.Component {
       
     }
    
+    //console.log(this.state.markers)
+   //console.log(this.state.eventMarker)
+   console.log(this.state.eventMarker)
+   
+   //console.log(this.state.eventMarkerCreator)
    return (
         <View style={styles.container}>
 
@@ -683,7 +722,7 @@ export default class Map extends React.Component {
              source={{uri:this.state.markerUri}}
            />
            </View>
-           {  this.state.status=="BarDiscription" ? <Text style={styles.openTimeStyle}>Ouverture: {this.state.markerOpenTimes}</Text>: null }
+           {  this.state.status=="BarDiscription" ? <Text style={styles.openTimeStyle}>Ouverture:</Text>: null }
            
            {  this.state.status=="BarDiscription" ? <Text style={styles.discriptionStyle} >{this.state.markerDisc}</Text>: null }
 
@@ -772,9 +811,10 @@ export default class Map extends React.Component {
              source={{uri:this.state.eventMarkerUri}}
            />
            </View>
-           <Text style={styles.openTimeStyle}>DEBUT: {this.state.eventMarkerOpenTimes}</Text>
+           <Text style={styles.openTimeStyle}>DEBUT: {this.state.eventMarkerTime}</Text>
            
-           <Text style={styles.discriptionStyle} >{this.state.eventMarkerDisc}</Text>
+           <Text style={styles.discriptionStyle}>Creator: {this.state.eventMarkerCreator}</Text>
+           <Text style={styles.discriptionStyle}>Nombre de participants: {this.state.eventMarkerParticipants.length}</Text>
 
            
            
@@ -818,21 +858,20 @@ export default class Map extends React.Component {
            }}>
                   
                   {  this.state.barEvent=="showBars" ?<View>
-                   {markerData.map(markerData => (
-            <Marker coordinate={{latitude: markerData.latitude, longitude: markerData.longitude}}
-                           pinColor={markerData.pin}
-                           title={markerData.title}
-                           onPress={() => this.setMarker(markerData)}
+                   {this.state.markers.map(markers => (
+            <Marker coordinate={{latitude: markers.latitude, longitude: markers.longitude}}
+                           pinColor={markers.pin}
+                           title={markers.barName}
+                           onPress={() => this.setMarker(markers)}
                            
                            
                     />))}</View>: null }
 
                    {  this.state.barEvent=="showEvents" ?<View>
-                   {eventData.map(eventData => (
-            <Marker coordinate={{latitude: eventData.latitude, longitude: eventData.longitude}}
-                           pinColor={eventData.pin}
-                           title={eventData.title}
-                           onPress={() => this.setEvent(eventData)}
+                   {this.state.eventMarker.map(eventMarker => (
+            <Marker coordinate={{latitude: eventMarker.bars.latitude, longitude: eventMarker.bars.longitude}}
+                           title={eventMarker.bars.barName}
+                           onPress={() => this.setEvent(eventMarker)}
                            
                            
                     />))}</View>: null }
