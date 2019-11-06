@@ -23,7 +23,9 @@ router.get('/', function(req, res, next) {
   
   /* PUT profile page. */
   router.put('/update', async function(req, res, next) {
-  //updateOne
+  //updateOne 
+  console.log(req.query)
+  console.log(req.body)
         /*var user = await */userModel.updateOne(
           {_id:req.query.id},
           {

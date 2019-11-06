@@ -10,11 +10,11 @@ const mongoose = require('mongoose');
 //     name: String,
 // });
 var userSchema = mongoose.Schema({
-    name: String,
+    userName: String,
     firstname: String,
     lastname: String,
     password: String,
-    emailBuddy: String,
+    email: String,
     img: String,
     job: String,
     hobby: String,

@@ -198,6 +198,8 @@ export default class Map extends React.Component {
     this.setState({ time: `${hour}:${minute}` });
     this.TimePicker.close();
   }
+
+  
   
     render() {
 
