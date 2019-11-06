@@ -10,8 +10,9 @@ import SignScreen from './signUp';
 import LoginScreen from './signIn';
 import HomeScreen from './home';
 import ChatScreen from './chat';
-import Profilescreen from './profile'
-import Map from './map'
+import Profilescreen from './profile';
+import Map from './map';
+import Notification from './events'
 
 // const TabNavigator = createBottomTabNavigator(
 //     {
@@ -75,6 +76,13 @@ var StackNavigator = createStackNavigator({
 
   Map: {
     screen: Map,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+
+  Notification: {
+    screen: Notification,
     navigationOptions: () => ({
       header: null
     })
