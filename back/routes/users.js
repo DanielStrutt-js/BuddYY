@@ -10,17 +10,19 @@ var eventModel = require('../models/event')
 router.post('/signUp', async function(req, res, next) {
   console.log('===> req', req.body)
   userModel.findOne({
-    emailBuddy : req.body.email,
+    email : req.body.email,
   },function (err, user){
     console.log(user)
   if(user){   
     console.log('We found a User with this email')
     res.json({result: false, message:'Cet utilisateur existe déjà'});    
   }else{
+
+    // faire des var
    var NewUser = new userModel({
       lastname: req.body.lastname,
       firstname: req.body.firstname,
-      emailBuddy: req.body.emailBuddy,
+      email: req.body.email,
       password: req.body.password,
     });
 
@@ -44,20 +46,27 @@ router.post('/signUp', async function(req, res, next) {
           var user = await userModel.updateOne(
             {_id:req.query.id},
          
-            {img: req.body.img,
+              {img: req.body.img,
+              userName: req.body.userName,
               job: req.body.job,
               hobby: req.body.hobby,
               bands: req.body.bands,
               drinks: req.body.drinks}
           
           )
+
+          var user = await userModel.findOne({
+            _id:req.query.id,
+          });
           
               // user.save(function(error, user) {
               // console.log("USER SAVED ---->", user)
               // res.json({result: true});
       // });
 
-     res.json({result:true})
+      console.log(user)
+
+     res.json({result:true, user})
     } );
 
 
