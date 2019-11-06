@@ -33,7 +33,8 @@ var eventModel = require('../models/event')
 /* GET events page. */
 
 router.get('/', async function(req, res, next) {
-  //find
+  //find 
+  console.log("ici")
       var event = await eventModel.findById(
         {_id:req.query.id},
         function (err, event) {
@@ -41,6 +42,32 @@ router.get('/', async function(req, res, next) {
           res.json(event)
       })
     });
+
+
+
+router.get('/barList', async function(req, res, next){
+
+  console.log("barEvents route")
+  var bars = await barsModel.find(
+   function(err, bars){
+     console.log(bars);
+     res.json(bars)
+   })
+});
+
+router.get('/eventList', async function(req, res, next){
+
+  console.log("eventEvents route")
+  var eventList = await eventModel.find()
+  .populate('bars').populate('eventCreator')
+  .exec(function(err, events){
+    console.log(events);
+    res.json(events)
+  })
+   
+});
+
+
   
 /* PUT join an event*/
 

@@ -8,48 +8,7 @@ import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 
-const BACON_IPSUM =
-  'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
 
-
-
-const CONTENT = [
-  {
-    title: 'First',
-    content: BACON_IPSUM,
-  },
-  {
-    title: 'Second',
-    content: BACON_IPSUM,
-  },
-  {
-    title: 'Third',
-    content: BACON_IPSUM,
-  },
-  {
-    title: 'Fourth',
-    content: BACON_IPSUM,
-  },
-  {
-    title: 'Fifth',
-    content: BACON_IPSUM,
-  },
-  
-];
-
-const SELECTORS = [
-  {
-    title: 'First',
-    value: 0,
-  },
-  {
-    title: 'Third',
-    value: 2,
-  },
-  {
-    title: 'None',
-  },
-];
 
 
 
@@ -60,9 +19,44 @@ export default class Notification extends React.Component {
         super()
         this.state = {activeSections: [],
                       collapsed: true,
-                      multipleSelect: false,};
+                      multipleSelect: false,
+                      barInfo:[],
+                      eventInfo:[],
+                      eventBarName:null,
+                      eventDiscription:null,
+                    
+                    };
         this.handleSubmit= this.handleSubmit.bind(this)
     }
+
+
+    
+    componentWillMount() {
+     ctx=this;
+      fetch('http://10.2.5.226:3000/events/eventList',{
+         
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(eventdata) {
+   
+       console.log('réponse du backend --->',eventdata)
+        ctx.setState({eventInfo: eventdata,});
+        
+        
+      })
+      .catch((error)=> {
+        console.log(error)
+      })
+
+      
+    
+
+    
+
+    };
+
 
     toggleExpanded = () => {
         this.setState({ collapsed: !this.state.collapsed });
@@ -81,7 +75,9 @@ export default class Notification extends React.Component {
             style={[styles.header, isActive ? styles.active : styles.inactive]}
             transition="backgroundColor"
           >
+            <Text style={styles.headerTime}>Depart: {section.time}</Text>
             <Text style={styles.headerText}>{section.title}</Text>
+            <Text style={styles.headerPeople}>Participants: {section.people.length}</Text>
           </Animatable.View>
         );
       };
@@ -114,11 +110,33 @@ export default class Notification extends React.Component {
     handleSubmit(){
         console.log('click bordel')
         this.props.navigation.navigate('Map')}
+
+        
     
 
     render(){
 
+       
         const { multipleSelect, activeSections } = this.state;
+
+       // const BACON_IPSUM =
+  //'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
+         //const title = "lalala"
+
+
+const SECTIONS = this.state.eventInfo.map(event => (
+ 
+   obj = {
+    title: event.bars.barName,
+    content: event.eventDescription,
+    time: event.eventTime,
+    people:event.eventParticipants
+  }
+  ));
+  console.log('reponse du content --->', SECTIONS)
+  //console.log('réponse du state --->',this.state.eventInfo.eventDescription)
+  console.log('réponse du stateBarName --->',this.state.eventBarName)
+  console.log('réponse du stateDiscription --->',this.state.eventDescription)
 
         return(
         
@@ -143,10 +161,10 @@ export default class Notification extends React.Component {
           
 
          
-         
+          {/* {this.state.eventInfo.map(eventInfo => (   */}
           <Accordion
             activeSections={activeSections}
-            sections={CONTENT}
+            sections={SECTIONS}
             touchableComponent={TouchableOpacity}
             expandMultiple={multipleSelect}
             renderHeader={this.renderHeader}
@@ -154,6 +172,9 @@ export default class Notification extends React.Component {
             duration={400}
             onChange={this.setSections}
           />
+          {/* ))} */}
+       
+       
         </ScrollView>
       
            
@@ -186,6 +207,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
       },
       header: {
+        flex:1,
         backgroundColor: '#101D35',
         padding: 10,
         borderWidth: 3,
@@ -194,12 +216,26 @@ const styles = StyleSheet.create({
         
       },
       headerText: {
-        flex:1,
-        marginTop: 30,
+        
+       
         justifyContent: 'center',
         textAlign: 'center',
         fontSize: 16,
         fontWeight: '500',
+        color: '#CCA43B',
+        
+      },
+      headerTime: {
+        
+        textAlign: 'right',
+        fontSize: 12,
+        color: '#CCA43B',
+        
+      },
+      headerPeople: {
+        
+        textAlign: 'left',
+        fontSize: 12,
         color: '#CCA43B',
         
       },
