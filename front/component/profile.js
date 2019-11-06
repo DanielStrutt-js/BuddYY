@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text,TextInput,ScrollView} from 'react-native';
-import { Avatar,Input, Button, Header,} from 'react-native-elements';
+import { View, StyleSheet,ScrollView,KeyboardAvoidingView} from 'react-native';
+import { Avatar,Input} from 'react-native-elements';
 import ButtonCustom from './button';
 import HeaderHome from './header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import {connect} from 'react-redux';
 
 
-export default class Profilescreen extends React.Component{
+class Profilescreen extends React.Component{
     constructor(){
         super()
         this.state = {
@@ -21,6 +22,14 @@ export default class Profilescreen extends React.Component{
         this.handleSubmit= this.handleSubmit.bind(this)
     }
 
+    handleReturn=()=>{
+    
+        console.log('clickonpress2')
+       
+        this.props.navigation.navigate('Home')
+    }
+
+
     handleSubmit(){
 
         console.log('click bordel')
@@ -32,32 +41,34 @@ export default class Profilescreen extends React.Component{
         //   drink:this.state.drink,
         //   bands:this.state.bands
         // });
-        this.props.navigation.navigate('Notification')
+        console.log('questceque',this.state.userName)
     
-    //     fetch(`http://10.2.5.224:3000/Profile`, {
-    //         method: 'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         body: profileData,
-    //     }).then((response) =>{
-    //       return response.json();
-    //    })
-    //    .then((data)=> {
-          
-    //     //  REDUX PART
-    //       console.log('RESULTAT DE LERENGISTREMENT EN BD USER --->', data.user._id)
+        fetch(`http://10.2.5.224:3000/users/newProfile?id=`+this.props.userIdfromStore, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `userName=${this.state.userName}
+            &job=${this.state.job}
+            &drink=${this.state.drink}
+            &hobby=${this.state.hobby}&bands=${this.state.bands}`,
+        }).then((response) =>{
+          return response.json();
+       })
+       .then((data)=> {
+          console.log(data)
+        //  REDUX PART
+          console.log('RESULTAT DE LERENGISTREMENT EN BD USER --->', data.id)
     
-    //       // On envoit au reducer l'_id du user
-    //       this.props.profile(data.user._id);
-    //    })
-    //    .catch((error)=> {
-    //        console.log('Request failed in my Sign-Up Home request', error)
-    //    });
+          // On envoit au reducer l'_id du user
+          //this.props.profile(data.user.id);
+          console.log('data avant save redux', data.user.userName)
+          this.props.usernameClick(data.user.userName)
+          this.props.navigation.navigate('Notification')
+       })
+       .catch((error)=> {
+           console.log('Request failed in my signUp Home request', error)
+       });
     
-    
-    //     // Envoi au réducer
-        
-    
-    //     this.props.navigation.navigate('Profile');
+        // this.props.navigation.navigate('Profile');
     }
     
      
@@ -69,10 +80,11 @@ export default class Profilescreen extends React.Component{
         return(
                 
              
-                <View style={styles.container}>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                     
                     
                     <HeaderHome
+                    click={this.handleReturn} 
                     centerComponent={{ text: 'NOUVEAU PROFIL', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
                         />
                 <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center',width:"90%" }}>
@@ -122,7 +134,7 @@ export default class Profilescreen extends React.Component{
                             />
                         <Input containerStyle={styles.Input}
                                 inputContainerStyle={{ borderBottomWidth:0, height: 40}}
-                                placeholder='groupe préférés'
+                                placeholder='groupes préférés'
                                 labelStyle={{ marginLeft : 15}}
                                 onChangeText={(value) => this.setState({bands: value})} 
                                 value={this.state.bands}
@@ -142,13 +154,39 @@ export default class Profilescreen extends React.Component{
                        
                         </ScrollView>
                         </View>
-                        </View>         
+                        </KeyboardAvoidingView>         
                        
                 
         )
     }
     
+    
 }
+function signUpStateToProps(state) {
+
+    console.log('je sauvegarde dans mon reducer lid suivant : ',state)
+
+    return { userIdfromStore: state.id }
+  }
+
+function userNameStateToProps(dispatch) {
+
+    
+
+    return {
+        usernameClick: function(userName) { 
+            console.log('je recois de mon reducer le name suivant : ', userName)
+            dispatch( {type: 'Profile', name: userName} )
+    
+    }
+  }
+}
+  
+  export default connect(
+    signUpStateToProps,
+    userNameStateToProps
+    )(Profilescreen);
+
 
 export  class Profile extends React.Component{
     constructor(){
@@ -163,18 +201,18 @@ export  class Profile extends React.Component{
 
     handleSubmit(){
 
-        console.log('click bordel')
+        console.log('click bordel2')
         
-        // var profileData = JSON.stringify({
-        //   userName: this.state.userName,
-        //   job: this.state.job,
-        //   hobby: this.state.hobby,
-        //   drink:this.state.drink,
-        //   bands:this.state.bands
-        // });
-        this.props.navigation.navigate('Notification')
+        var profileData = JSON.stringify({
+          userName: this.state.userName,
+          job: this.state.job,
+          hobby: this.state.hobby,
+          drink:this.state.drink,
+          bands:this.state.bands
+        });
+        
     
-    //     fetch(`http://10.2.5.224:3000/Profile`, {
+    //     fetch(`http://10.2.5.224:3000/users/newProfile`, {
     //         method: 'POST',
     //         headers: {'Content-Type': 'application/json'},
     //         body: profileData,
@@ -197,8 +235,8 @@ export  class Profile extends React.Component{
     //     // Envoi au réducer
         
     
-    //     this.props.navigation.navigate('Profile');
-    }
+        this.props.navigation.navigate('Map');
+     }
     
      
 
@@ -283,6 +321,10 @@ export  class Profile extends React.Component{
     }
     
 }
+
+
+
+
 
 const styles = StyleSheet.create({
 

@@ -12,7 +12,7 @@ mongoose.connect('mongodb+srv://Daniel:mongoBuddyy.2019@cluster0-uddhx.mongodb.n
      if (err) {
        console.log(`error, failed to connect to the database because --> ${err}`);
      } else {
-       console.info('*** Buddyy database coonection done ***');
+       console.info('*** Buddyy database connection done ***');
      }
     }
 );

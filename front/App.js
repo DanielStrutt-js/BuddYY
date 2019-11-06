@@ -12,9 +12,22 @@ import chatScreen from './component/chat';
 import Navigation from './component/nav';
 import Map from './component/map';
 
-export default function App() {
+import id from './component/users.reducer';
+import name from './component/userName.reducer';
+import {Provider} from 'react-redux';
+import {createStore, combineReducers}  from 'redux';
+
+var store = createStore(combineReducers({id,name}));
+
+
+export default class App extends React.Component {
+  render(){
   return (
+    
+    <Provider store={store}>
+ 
     <Navigation/>
-  );
-  
+
+    </Provider>
+  )};
 }

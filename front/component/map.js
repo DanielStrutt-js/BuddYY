@@ -162,6 +162,8 @@ export default class Map extends React.Component {
     this.setState({ time: `${hour}:${minute}` });
     this.TimePicker.close();
   }
+
+  
   
     render() {
       
@@ -637,6 +639,22 @@ export default class Map extends React.Component {
       
     }
    
+    // var markerData = new FormData();
+
+    // markerData.append('bars', {
+    //   uri: this.props.barImg,
+    //   name: this.props.barName,
+    //   longitude: this.props.longitude,
+    //   latitude: this.props.latitude
+    // });
+
+    //  fetch("http://10.2.5.224/bars", {
+    //   method: 'GET',
+    //   body: markerData
+    // }).then(res => {
+    //   console.log(res)
+    // });
+
    return (
         <View style={styles.container}>
 
@@ -818,10 +836,10 @@ export default class Map extends React.Component {
            }}>
                   
                   {  this.state.barEvent=="showBars" ?<View>
-                   {markerData.map(markerData => (
-            <Marker coordinate={{latitude: markerData.latitude, longitude: markerData.longitude}}
-                           pinColor={markerData.pin}
-                           title={markerData.title}
+                   {bars.map(bars => (
+            <Marker coordinate={{latitude: bars.latitude, longitude: bars.longitude}}
+                           pinColor={bars.pin}
+                           title={bars.barName}
                            onPress={() => this.setMarker(markerData)}
                            
                            
