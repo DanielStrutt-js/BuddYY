@@ -75,37 +75,68 @@ export default class Notification extends React.Component {
             style={[styles.header, isActive ? styles.active : styles.inactive]}
             transition="backgroundColor"
           >
-            <Text style={styles.headerTime}>Depart: {section.time}</Text>
-            <Text style={styles.headerText}>{section.title}</Text>
-            <Text style={styles.headerPeople}>Participants: {section.people.length}</Text>
+            <View style={{flex:1,
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          }}>
+            <Icon
+                 raised
+                 style={{justifyContent: 'left',}}
+                 name='comment'
+                 type='font-awesome'
+                 color='#CCA43B'
+                 onPress={this.sayHello}
+             />
+             <Text style={styles.headerText}>{section.title}</Text>
+             </View>
           </Animatable.View>
         );
       };
     
       renderContent(section, _, isActive) {
+        
         return (
           <Animatable.View
             duration={400}
             style={[styles.content, isActive ? styles.active : styles.inactive]}
             transition="backgroundColor"
-            
           >
-            <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-              {section.content}
+            
+            <Animatable.Text animation={isActive ? 'bounceIn' : undefined} >
+              {section.content} 
             </Animatable.Text>
-            <Button 
-            buttonStyle= {{ backgroundColor:'#9C2C2C',}}
-            title="CHAT"
-            titleStyle= {{color:'#CCA43B', textAlign:'center', }}
-            containerStyle={{ 
-             borderWidth: 3, borderColor: '#CCA43B',}}
-             onPress={this.toggleEventModal}
-             
-             
-            />
+            
+            
+            <View style={{flex:1,
+                          flexDirection: 'row',
+                          justifyContent:'space-between'
+                          
+                          }}> 
+           
+            <View style={{flexDirection: 'row'}}>
+            <Icon  name='users'
+                   type='font-awesome'
+                   color='#CCA43B' />
+
+            <Text style={styles.headerPeople}>{section.people.length}</Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+            <Icon  name='hourglass-start'
+                   type='font-awesome'
+                   color='#CCA43B' 
+                   />
+
+            <Text style={styles.headerTime}>{section.time}</Text>
+            </View>
+            </View>
           </Animatable.View>
         );
       }
+
+    sayHello(){
+        console.log('sayhello')
+      }
+    
 
     handleSubmit(){
         console.log('click bordel')
@@ -216,10 +247,8 @@ const styles = StyleSheet.create({
         
       },
       headerText: {
-        
-       
         justifyContent: 'center',
-        textAlign: 'center',
+        marginLeft:50,
         fontSize: 16,
         fontWeight: '500',
         color: '#CCA43B',
@@ -235,7 +264,7 @@ const styles = StyleSheet.create({
       headerPeople: {
         
         textAlign: 'left',
-        fontSize: 12,
+        fontSize: 18,
         color: '#CCA43B',
         
       },
