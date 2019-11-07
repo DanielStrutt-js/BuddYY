@@ -9,7 +9,7 @@ class SignIn extends Component {
     constructor(){
         super() 
         this.state={
-            firstname:'',
+            password:'',
             email:'',
         }
     }
