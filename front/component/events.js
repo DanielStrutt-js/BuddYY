@@ -27,13 +27,14 @@ export default class Notification extends React.Component {
                     
                     };
         this.handleSubmit= this.handleSubmit.bind(this)
+        this.chatButton= this.chatButton.bind(this)
     }
 
 
     
     componentWillMount() {
      ctx=this;
-      fetch('http://10.2.5.226:3000/events/eventList',{
+      fetch('http://10.2.5.219:3000/events/eventList',{
          
       })
       .then(function(response) {
@@ -62,6 +63,11 @@ export default class Notification extends React.Component {
         this.setState({ collapsed: !this.state.collapsed });
       };
 
+    chatButton = () => {
+      console.log('chatButton')
+      this.props.navigation.navigate('Chat');
+    };
+
       setSections = sections => {
         this.setState({
           activeSections: sections.includes(undefined) ? [] : sections,
@@ -83,27 +89,22 @@ export default class Notification extends React.Component {
       };
     
       renderContent(section, _, isActive) {
+
         return (
           <Animatable.View
             duration={400}
             style={[styles.content, isActive ? styles.active : styles.inactive]}
             transition="backgroundColor"
-            
-          >
+            >
+
             <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
               {section.content}
             </Animatable.Text>
-            <Button 
-            buttonStyle= {{ backgroundColor:'#9C2C2C',}}
-            title="CHAT"
-            titleStyle= {{color:'#CCA43B', textAlign:'center', }}
-            containerStyle={{ 
-             borderWidth: 3, borderColor: '#CCA43B',}}
-             onPress={this.toggleEventModal}
-             
-             
-            />
+
+           
+
           </Animatable.View>
+          
         );
       }
 
