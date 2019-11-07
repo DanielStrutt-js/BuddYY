@@ -72,10 +72,10 @@ router.post('/signUp', async function(req, res, next) {
 
 /* GET signIn page. *////
 router.get('/signIn', async function(req, res, next) {
-
+  console.log(req.query)
   var user = await userModel.findOne({
-    email:req.query.email,
-    password: req.query.password
+    email:req.query.email.trim(),
+    password: req.query.password.trim()
   })
   if(user){   
     console.log('We found a User with this email')

@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet,ScrollView,KeyboardAvoidingView} from 'react-native';
-import { Avatar,Input} from 'react-native-elements';
+import { View, StyleSheet, Text,TextInput,ScrollView} from 'react-native';
+import { Avatar,Input, Button, Header,} from 'react-native-elements';
 import ButtonCustom from './button';
 import HeaderHome from './header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import {connect} from 'react-redux';
 
 
-class Profilescreen extends React.Component{
+export default class Profilescreen extends React.Component{
     constructor(){
         super()
         this.state = {
@@ -19,16 +18,9 @@ class Profilescreen extends React.Component{
                         hobby: '',
                         drink:'',
                         bands: ''};
-        this.handleSubmit= this.handleSubmit.bind(this)
+        this.handleSubmit= this.handleSubmit.bind(this);
+      
     }
-
-    handleReturn=()=>{
-    
-        console.log('clickonpress2')
-       
-        this.props.navigation.navigate('Home')
-    }
-
 
     handleSubmit(){
 
@@ -41,15 +33,31 @@ class Profilescreen extends React.Component{
         //   drink:this.state.drink,
         //   bands:this.state.bands
         // });
-        console.log('questceque',this.state.userName)
+        this.props.navigation.navigate('Notification')
+    
+    //     fetch(`http://10.2.5.224:3000/Profile`, {
+    //         method: 'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: profileData,
+    //     }).then((response) =>{
+    //       return response.json();
+    //    })
+    //    .then((data)=> {
+          
+    //     //  REDUX PART
+    //       console.log('RESULTAT DE LERENGISTREMENT EN BD USER --->', data.user._id)
+    
+    //       // On envoit au reducer l'_id du user
+    //       this.props.profile(data.user._id);
+    //    })
+    //    .catch((error)=> {
+    //        console.log('Request failed in my Sign-Up Home request', error)
+    //    });
     
         fetch(`http://10.2.5.226:3000/users/newProfile?id=`+this.props.userIdfromStore, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `userName=${this.state.userName}
-            &job=${this.state.job}
-            &drink=${this.state.drink}
-            &hobby=${this.state.hobby}&bands=${this.state.bands}`,
+            body: `userName=${this.state.userName}&job=${this.state.job}&drink=${this.state.drink}&hobby=${this.state.hobby}&bands=${this.state.bands}`,
         }).then((response) =>{
           return response.json();
        })
@@ -62,13 +70,13 @@ class Profilescreen extends React.Component{
           //this.props.profile(data.user.id);
           console.log('data avant save redux', data.user.userName)
           this.props.usernameClick(data.user.userName)
-          this.props.navigation.navigate('Notification')
+          this.props.navigation.navigate('Map')
        })
        .catch((error)=> {
            console.log('Request failed in my signUp Home request', error)
        });
     
-        // this.props.navigation.navigate('Profile');
+    //     this.props.navigation.navigate('Profile');
     }
     
      
@@ -80,11 +88,10 @@ class Profilescreen extends React.Component{
         return(
                 
              
-                <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+                <View style={styles.container}>
                     
                     
                     <HeaderHome
-                    click={this.handleReturn} 
                     centerComponent={{ text: 'NOUVEAU PROFIL', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
                         />
                 <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center',width:"90%" }}>
@@ -134,52 +141,24 @@ class Profilescreen extends React.Component{
                             />
                         <Input containerStyle={styles.Input}
                                 inputContainerStyle={{ borderBottomWidth:0, height: 40}}
-                                placeholder='groupes préférés'
+                                placeholder='groupe préférés'
                                 labelStyle={{ marginLeft : 15}}
                                 onChangeText={(value) => this.setState({bands: value})} 
                                 value={this.state.bands}
                             />  
 
                         <ButtonCustom Title='VALIDER' click={this.handleSubmit}/>
-
-                             
-                        
+                      
                        
                         </ScrollView>
                         </View>
-                        </KeyboardAvoidingView>         
+                        </View>         
                        
                 
         )
     }
     
-    
 }
-function signUpStateToProps(state) {
-
-    console.log('je sauvegarde dans mon reducer lid suivant : ',state)
-
-    return { userIdfromStore: state.id }
-  }
-
-function userNameStateToProps(dispatch) {
-
-    
-
-    return {
-        usernameClick: function(userName) { 
-            console.log('je recois de mon reducer le name suivant : ', userName)
-            dispatch( {type: 'Profile', name: userName} )
-    
-    }
-  }
-}
-  
-  export default connect(
-    signUpStateToProps,
-    userNameStateToProps
-    )(Profilescreen);
-
 
 export  class Profile extends React.Component{
     constructor(){
@@ -194,18 +173,18 @@ export  class Profile extends React.Component{
 
     handleSubmit(){
 
-        console.log('click bordel2')
+        console.log('click bordel')
         
-        var profileData = JSON.stringify({
-          userName: this.state.userName,
-          job: this.state.job,
-          hobby: this.state.hobby,
-          drink:this.state.drink,
-          bands:this.state.bands
-        });
-        
+        // var profileData = JSON.stringify({
+        //   userName: this.state.userName,
+        //   job: this.state.job,
+        //   hobby: this.state.hobby,
+        //   drink:this.state.drink,
+        //   bands:this.state.bands
+        // });
+        this.props.navigation.navigate('Notification')
     
-    //     fetch(`http://10.2.5.224:3000/users/newProfile`, {
+    //     fetch(`http://10.2.5.224:3000/Profile`, {
     //         method: 'POST',
     //         headers: {'Content-Type': 'application/json'},
     //         body: profileData,
@@ -228,8 +207,8 @@ export  class Profile extends React.Component{
     //     // Envoi au réducer
         
     
-        this.props.navigation.navigate('Map');
-     }
+    //     this.props.navigation.navigate('Profile');
+    }
     
      
 
@@ -299,7 +278,7 @@ export  class Profile extends React.Component{
                                 value={this.state.bands}
                             />  
 
-                        <ButtonCustom Title='VALIDER' click={this.handleSubmit}/>
+                        <ButtonCustom Title='VALIDER' click={this.handleSubmit} />
 
                              
                         
@@ -314,10 +293,6 @@ export  class Profile extends React.Component{
     }
     
 }
-
-
-
-
 
 const styles = StyleSheet.create({
 
