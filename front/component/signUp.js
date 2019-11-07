@@ -20,9 +20,24 @@ class SignUp extends React.Component {
 handleSubmit=()=>{
     
     console.log('clickonpress')
-    console.log(this.state.lastname)
+    console.log(this.state)
    
-
+    // fetch('http://10.2.5.224:3000/users/signUp', {
+    //     method: 'GET',
+    //     headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded',
+    //     },
+    //   })
+    //   .then((response) => response.json())
+    //   .then((user) => {
+            
+    //         if(email= user.email){
+    //           errorMessage='Cet utilisateur existe déjà'
+    //         }
+    //     })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });;
     
     
     fetch('http://10.2.5.224:3000/users/signUp', {
@@ -30,16 +45,21 @@ handleSubmit=()=>{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body : `firstname=${this.state.firstname}
-        &lastname=${this.state.lastname}
-        &email=${this.state.email}
-        &password=${this.state.password}`,
+        body : `firstname=${this.state.firstname}&lastname=${this.state.lastname}&email=${this.state.email}&password=${this.state.password}`,
       })
       .then((response) => response.json())
       .then((user) => {
-            console.log('je recupere un truc', user)
-            this.props.onSignUpClick(user.user._id)
-            this.props.navigation.navigate('Profile')  
+             
+
+            if(user.result === false){
+              //errorMessage='Cet utilisateur nexiste pas'
+              this.props.navigation.navigate('Home')
+              }
+              else{
+                console.log('je recupere un truc', user)
+                this.props.onSignUpClick(user.user._id)
+                this.props.navigation.navigate('Profile') 
+          }
         })
       .catch((error) => {
         console.error(error);
@@ -58,43 +78,39 @@ render() {
                             <Image source={require('../assets/logos/logo.png')}/>
                     </View>
                     
-                      <Input containerStyle={styles.Input}
-                            inputContainerStyle={{ borderBottomWidth:0}}
-                            placeholder='Mot de passe'
-                            labelStyle={{ marginLeft : 15}}
-                            onChangeText={(value) => this.setState({firstname:value})}
-                            value={this.state.firstname}
-                     />
+                      <Input containerStyle={styles.Input} 
+                            inputContainerStyle={{ borderBottomWidth:0}} 
+                            placeholder='Prénom'labelStyle={{ marginLeft : 15}} 
+                            onChangeText={(value) => this.setState({firstname:value})} 
+                            value={this.state.firstname}/>
 
 
                     <Input containerStyle={styles.Input}
                             inputContainerStyle={{ borderBottomWidth:0}}
-                            placeholder='Prénom'
+                            placeholder='Nom'
                             labelStyle={{ marginLeft : 15}}
                             onChangeText={(value) => this.setState({lastname:value})}
-                            value={this.state.lastname}
-                     />
+                            value={this.state.lastname}/>
 
                        <Input containerStyle={styles.Input}
                             inputContainerStyle={{ borderBottomWidth:0}}
                             placeholder='Email'
                             labelStyle={{ marginLeft : 15}}
-                            onChangeText={(value) => this.setState({password:value})}
-                            value={this.state.password}
-                     />
+                            onChangeText={(value) => this.setState({email:value})}
+                            value={this.state.email}
+                            autoCapitalize = 'none'/>
 
                       <Input containerStyle={styles.Input}
                             inputContainerStyle={{ borderBottomWidth:0}}
                             placeholder='Mot de passe'
                             labelStyle={{ marginLeft : 15}}
                             onChangeText={(value) => this.setState({password:value})}
-                            value={this.state.password}
-                     />
+                            value={this.state.password}/>
 
                     <TouchableOpacity >
                         <Text style={{ color: '#CCA43B', fontSize:14 , margin : 20 }}>Mot de passe oublié?</Text>
                     </TouchableOpacity>
-                    <ButtonHome Title='REJOINDRE' click={this.handleSubmit} />
+                    <ButtonHome Title='REJOINDRE' click={this.handleSubmit} errorMessage={'cet utilisateur existe déjà'}/>
 
              </View>
            

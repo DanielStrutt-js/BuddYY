@@ -19,7 +19,8 @@ class Profilescreen extends React.Component{
                         hobby: '',
                         drink:'',
                         bands: ''};
-        this.handleSubmit= this.handleSubmit.bind(this)
+        this.handleSubmit= this.handleSubmit.bind(this);
+      
     }
 
     handleReturn=()=>{
@@ -46,10 +47,7 @@ class Profilescreen extends React.Component{
         fetch(`http://10.2.5.224:3000/users/newProfile?id=`+this.props.userIdfromStore, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `userName=${this.state.userName}
-            &job=${this.state.job}
-            &drink=${this.state.drink}
-            &hobby=${this.state.hobby}&bands=${this.state.bands}`,
+            body: `userName=${this.state.userName}&job=${this.state.job}&drink=${this.state.drink}&hobby=${this.state.hobby}&bands=${this.state.bands}`,
         }).then((response) =>{
           return response.json();
        })
@@ -62,7 +60,7 @@ class Profilescreen extends React.Component{
           //this.props.profile(data.user.id);
           console.log('data avant save redux', data.user.userName)
           this.props.usernameClick(data.user.userName)
-          this.props.navigation.navigate('Notification')
+          this.props.navigation.navigate('Map')
        })
        .catch((error)=> {
            console.log('Request failed in my signUp Home request', error)
@@ -299,7 +297,7 @@ export  class Profile extends React.Component{
                                 value={this.state.bands}
                             />  
 
-                        <ButtonCustom Title='VALIDER' click={this.handleSubmit}/>
+                        <ButtonCustom Title='VALIDER' click={this.handleSubmit} />
 
                              
                         
