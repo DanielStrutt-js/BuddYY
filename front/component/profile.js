@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text,TextInput,ScrollView} from 'react-native';
+import { View, StyleSheet, Text,TextInput,ScrollView, TouchableOpacity, Image, CameraRoll, Platform } from 'react-native';
 import { Avatar,Input, Button, Header,} from 'react-native-elements';
 import ButtonCustom from './button';
 import HeaderHome from './header';
@@ -80,10 +80,22 @@ export default class Profilescreen extends React.Component{
     }
     
      
+    // _mediaLibraryAsync = async () => {
+    //     // I ask permissions
+    //     let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    //     this.setState({ permissionsGranted: status === 'granted' }, this.getAlbums);
+    
+    //     // if permissions granted
+    //     let albumsReponse = await MediaLibrary.getAlbumsAsync();
+        
+    //     console.log("albumsReponse=", albumsReponse);
+    //   };
 
     render(){
         
-        let { img } = this.state;
+        // const { uri } = await Camera.takePictureAsync();
+        // const asset = await MediaLibrary.createAssetAsync(uri);
+
 
         return(
                 
@@ -104,10 +116,36 @@ export default class Profilescreen extends React.Component{
                                 size='xlarge'
                             rounded
                             containerStyle={styles.Avatar}
-                            onPress={(source) => this.setState({img: source})}
-                            source ={this.state.img}
+                            onPress={this._onTakePic}
+                            //onPress={(source) => this.setState({img: source})}
+                            //source ={this._onSave}
+                            imageProps={{resizeMode: 'cover'}}
                             
                             />
+                            <View style={{ flexDirection: 'row' }}>
+        
+                                    
+                                    <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={this._onChoosePic}>
+                                    <Text style={styles.buttonText}>Choose</Text>
+                                    </TouchableOpacity> 
+
+                                   
+                                    <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={this._onTakePic}>
+                                    <Text style={styles.buttonText}>Take</Text>
+                                    </TouchableOpacity>
+                                    
+                                    
+                                    <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={this._onSave}>
+                                    <Text style={styles.buttonText}>Save</Text>
+                                    </TouchableOpacity>
+                                    
+                                </View>
                        
                         
                        <Input containerStyle={styles.Input}
@@ -157,8 +195,59 @@ export default class Profilescreen extends React.Component{
                 
         )
     }
-    
+
+      
+  // When "Choose" is pressed, we show the user's image library
+  // so they may show a photo from disk inside the image view.
+  _onChoosePic = async () => {
+    const {
+      cancelled,
+      uri,
+    } = await ImagePicker.launchImageLibraryAsync();
+    if (!cancelled) {
+      this.setState({ imageUri: uri });
+       console.log('Choose',uri) // this logs correctly
+      // TODO: why isn't this showing up inside the Image on screen?
+    }
+  }
+
+  // When "Take" is pressed, we show the user's camera so they
+  // can take a photo to show inside the image view on screen.
+  _onTakePic = async () => {
+    const {
+      cancelled,
+      uri,
+    } = await ImagePicker.launchCameraAsync({});
+    if (!cancelled) {
+      this.setState({ imgUri: uri });
+    }
+    console.log('Take',uri)
+  }
+
+  // When "Save" is pressed, we snapshot whatever is shown inside 
+  // of "this.imageView" and save it to the device's camera roll.
+  _onSave = async () => {
+    const uri = await Expo.takeSnapshotAsync(this.imageView, {});
+    await CameraRoll.saveToCameraRoll(uri);
+    // TODO: show confirmation that it was saved (flash the word saved across bottom of screen?)
+  }
 }
+
+askPermission = async () => {
+    // only if user allows permission to camera roll
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+   // const { onStartUpload } = this.props;
+    // On Android users are prompted every time,
+    // so no need to show additional Alert
+    if (status !== 'granted') {
+      if (Platform.OS === 'ios') this.showAlert();
+      return;
+    }
+}
+    
+
+
+
 
 export  class Profile extends React.Component{
     constructor(){
@@ -300,5 +389,8 @@ const styles = StyleSheet.create({
     logo : {justifyContent:'center',alignItems:'center', margin:20},
     Avatar: { borderWidth: 4, borderColor: '#CCA43B', backgroundColor:'#101D35',  marginBottom:15, marginTop:15},
     Input : {  backgroundColor:'#fff' , width:'90%', borderRadius : 15, borderWidth : 4, marginTop: 10,
-    borderColor:'#CCA43B'}
+    borderColor:'#CCA43B'},
+    buttonText: {
+        fontSize: 21,
+      },
     })
