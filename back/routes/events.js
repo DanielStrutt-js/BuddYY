@@ -15,6 +15,7 @@ var config = {
 
   router.post('/create', function(req, res, next) {
     //newEventModel
+    console.log('ici',req.body)
         var newEvent = new eventModel({
           eventTime: req.body.eventTime,
           eventDay: req.body.eventDay,
