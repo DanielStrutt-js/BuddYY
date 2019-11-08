@@ -6,7 +6,8 @@ import * as Location from 'expo-location';
 import Modal from "react-native-modal";
 import { Header , Input, Button, } from "react-native-elements";
 import TimePicker from "react-native-24h-timepicker";
-import ToggleSwitch from 'rn-toggle-switch'
+import ToggleSwitch from 'rn-toggle-switch';
+
 
 
 
@@ -50,7 +51,7 @@ export default class Map extends React.Component {
       componentWillMount() {
         var ctx=this;
         this._getLocationAsync();
-        fetch('http://10.2.5.226:3000/events/barList',{
+        fetch('http://10.2.5.224:3000/events/barList',{
            
         })
         .then(function(response) {
@@ -66,7 +67,7 @@ export default class Map extends React.Component {
           console.log(error)
         })
        
-        fetch('http://10.2.5.226:3000/events/eventList',{
+        fetch('http://10.2.5.224:3000/events/eventList',{
            
         })
         .then(function(response) {
@@ -218,7 +219,7 @@ export default class Map extends React.Component {
    ]*/
    var swipe=["up", "down", "left", "right"]
     
-   
+   console.log(this.state.markerUri)
 
    if(this.state.dayMode===true){
      var mapStyle=[
@@ -862,7 +863,7 @@ export default class Map extends React.Component {
                   {  this.state.barEvent=="showBars" ?<View>
                    {this.state.markers.map(markers => (
             <Marker coordinate={{latitude: markers.latitude, longitude: markers.longitude}}
-                           pinColor={markers.pin}
+                           pinColor={'#CCA43B'}
                            title={markers.barName}
                            onPress={() => this.setMarker(markers)}
                            
@@ -933,9 +934,10 @@ export default class Map extends React.Component {
       
     },
     stretch: {
-      width: "100%",
-      height: "100%",
-      resizeMode: 'stretch',
+      flex: 1, 
+      height: undefined, 
+      width: undefined, 
+      resizeMode: 'cover' ,
         
     },
     wrapper: {

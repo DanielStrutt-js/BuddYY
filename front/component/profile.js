@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text,TextInput,ScrollView, TouchableOpacity, Image, CameraRoll, Platform } from 'react-native';
+import { View, StyleSheet, Text,TextInput,ScrollView, TouchableOpacity, Image, CameraRoll, Platform,KeyboardAvoidingView } from 'react-native';
 import { Avatar,Input, Button, Header,} from 'react-native-elements';
 import ButtonCustom from './button';
 import HeaderHome from './header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import {connect} from 'react-redux';
 
-
-export default class Profilescreen extends React.Component{
+ 
+class Profilescreen extends React.Component{
     constructor(){
         super()
         this.state = {
@@ -21,6 +22,14 @@ export default class Profilescreen extends React.Component{
         this.handleSubmit= this.handleSubmit.bind(this);
       
     }
+
+    handleReturn=()=>{
+
+        console.log('clickonpress2')
+
+        this.props.navigation.navigate('Home')
+    }
+
 
     handleSubmit(){
 
@@ -62,19 +71,21 @@ export default class Profilescreen extends React.Component{
           return response.json();
        })
        .then((data)=> {
-          console.log(data)
-        //  REDUX PART
-          console.log('RESULTAT DE LERENGISTREMENT EN BD USER --->', data.id)
-    
-          // On envoit au reducer l'_id du user
-          //this.props.profile(data.user.id);
-          console.log('data avant save redux', data.user.userName)
-          this.props.usernameClick(data.user.userName)
-          this.props.navigation.navigate('Map')
-       })
-       .catch((error)=> {
-           console.log('Request failed in my signUp Home request', error)
-       });
+        console.log(data)
+      //  REDUX PART
+        console.log('RESULTAT DE LERENGISTREMENT EN BD USER --->', data.id)
+
+  //     // Envoi au réducer
+
+        // On envoit au reducer l'_id du user
+        //this.props.profile(data.user.id);
+        console.log('data avant save redux', data.user.userName)
+        this.props.usernameClick(data.user.userName)
+        this.props.navigation.navigate('Notification')
+     })
+     .catch((error)=> {
+         console.log('Request failed in my signUp Home request', error)
+     });
     
     //     this.props.navigation.navigate('Profile');
     }
@@ -100,11 +111,12 @@ export default class Profilescreen extends React.Component{
         return(
                 
              
-                <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                     
                     
                     <HeaderHome
                     centerComponent={{ text: 'NOUVEAU PROFIL', style: { color: '#CCA43B', fontWeight:'bold', fontSize:18 } }}
+                    click={this.handleReturn}
                         />
                 <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center',width:"90%" }}>
                 <ScrollView style={{flex:1, width:'100%'}}
@@ -179,7 +191,7 @@ export default class Profilescreen extends React.Component{
                             />
                         <Input containerStyle={styles.Input}
                                 inputContainerStyle={{ borderBottomWidth:0, height: 40}}
-                                placeholder='groupe préférés'
+                                placeholder='groupes préférés'
                                 labelStyle={{ marginLeft : 15}}
                                 onChangeText={(value) => this.setState({bands: value})} 
                                 value={this.state.bands}
@@ -190,7 +202,7 @@ export default class Profilescreen extends React.Component{
                        
                         </ScrollView>
                         </View>
-                        </View>         
+                        </KeyboardAvoidingView>         
                        
                 
         )
@@ -245,6 +257,31 @@ askPermission = async () => {
     }
 }
     
+function signUpStateToProps(state) {
+
+    console.log('je sauvegarde dans mon reducer lid suivant : ',state)
+
+    return { userIdfromStore: state.id }
+  }
+
+function userNameStateToProps(dispatch) {
+
+
+
+    return {
+        usernameClick: function(userName) { 
+            console.log('je recois de mon reducer le name suivant : ', userName)
+            dispatch( {type: 'Profile', name: userName} )
+
+    }
+  }
+}
+
+  export default connect(
+    signUpStateToProps,
+    userNameStateToProps
+    )(Profilescreen);
+
 
 
 
@@ -252,11 +289,12 @@ askPermission = async () => {
 export  class Profile extends React.Component{
     constructor(){
         super()
-        this.state = {userName: '',
-                        job: '',
-                        hobby: '',
-                        drink:'',
-                        bands: ''};
+        this.state = {  img: req.query.img,
+                        userName: req.query.userName,
+                        job: req.query.job,
+                        hobby: req.query.hobby,
+                        drink: req.query.drink,
+                        bands: req.query.bands};
         this.handleSubmit= this.handleSubmit.bind(this)
     }
 
