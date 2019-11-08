@@ -23,6 +23,8 @@ class Profilescreen extends React.Component{
       
     }
 
+    
+
     handleReturn=()=>{
 
         console.log('clickonpress2')

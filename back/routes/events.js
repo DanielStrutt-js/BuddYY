@@ -108,7 +108,7 @@ router.get('/yelpList',async function(req,res,next){
 router.get('/eventList', async function(req, res, next){
 
   console.log("eventEvents route")
-  var eventList = await eventModel.find()
+  var eventList = await eventModel.find({$or:[{eventCreator : req.query.eventCreator},{eventParticipants : req.query.eventParticipants}]})
   .populate('bars').populate('eventCreator')
   .exec(function(err, events){
     console.log(events);
@@ -122,10 +122,10 @@ router.get('/eventList', async function(req, res, next){
 /* PUT join an event*/
 
 router.put('/join-event', async function(req,res,next){
-console.log(req.query._id)
+console.log(req.body.idevent)
 console.log(req.body.eventParticipants)
   var event = await eventModel.update(
-    {_id:req.query.id},
+    {_id:req.body.idevent},
     
     {$push:{
       //chat: req.body.chat
@@ -135,7 +135,7 @@ console.log(req.body.eventParticipants)
     if(event){
 
       console.log("Event Joined", event)
-      res.json({result:true, event})
+      res.json({result:true})
 
     }else{
 
