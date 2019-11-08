@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import { Header , Input, Button, } from "react-native-elements";
 import TimePicker from "react-native-24h-timepicker";
 import ToggleSwitch from 'rn-toggle-switch';
-
+import StarRating from 'react-native-star-rating';
 
 
 
@@ -31,6 +31,7 @@ export default class Map extends React.Component {
         markerUri: null,
         markerDisc: null,
         markerOpenTimes: null,
+        markerRating:null,
         eventMarkerTitle: null ,
         eventMarkerUri: null,
         eventMarkerTime: null,
@@ -39,10 +40,14 @@ export default class Map extends React.Component {
         meventMarkerOpenTimes: null,
         status: "BarDiscription",
         statusFelicitation: false,
-        time: "",
         discCreate: "",
         dayMode: true,
-        barEvent: "showBars"
+        barEvent: "showBars",
+        eventTime:"",
+        eventDay: null,
+        eventDescription: null,
+        bars: null,
+        eventCreator: null,
         
       };
   
@@ -86,6 +91,7 @@ export default class Map extends React.Component {
         
       }
   
+
       
     _getLocationAsync = async () => {
     
@@ -151,7 +157,7 @@ export default class Map extends React.Component {
       this.setState({markerUri: markers.barImg})
       this.setState({markerDisc: markers.description})
       this.setState({markerOpenTimes: markers.openTimes})
-
+      this.setState({markerRating: markers.rating})
       this.toggleModal()
        
     };
@@ -173,6 +179,11 @@ export default class Map extends React.Component {
       this.props.click()
   }
 
+  navigateToNotification=()=>{
+
+    this.props.navigation.navigate('Notification')
+  }
+
   ShowHideTextComponentView = () =>{
 
     if(this.state.status == "BarDiscription" )
@@ -181,6 +192,24 @@ export default class Map extends React.Component {
       }
      if(this.state.status =="createEvent" ) 
       {
+      console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+      fetch('http://10.2.5.226:3000/events/create', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body : `eventTime=${this.state.eventTime}&eventDescription=${this.state.eventDescription}&bars=${this.state.markerTitle}&eventCreator=${this.state.eventCreator}`,
+
+          })
+          .then((response) => response.json())
+          .then((event) => {
+                 
+              //return event.json();
+              
+            })
+          .catch((error) => {
+            console.error(error);
+          });
       this.setState({status: "Felicitation"})
     }
     if(this.state.status =="Felicitation" ) 
@@ -191,16 +220,17 @@ export default class Map extends React.Component {
   }
   
   
+ 
   onCancel() {
     this.TimePicker.close();
   }
  
   onConfirm(hour, minute) {
-    this.setState({ time: `${hour}:${minute}` });
+    this.setState({ eventTime: `${hour}:${minute}` });
     this.TimePicker.close();
   }
-
   
+ 
   
     render() {
 
@@ -219,7 +249,7 @@ export default class Map extends React.Component {
    ]*/
    var swipe=["up", "down", "left", "right"]
     
-   console.log(this.state.markerUri)
+   
 
    if(this.state.dayMode===true){
      var mapStyle=[
@@ -676,7 +706,7 @@ export default class Map extends React.Component {
    
     //console.log(this.state.markers)
    //console.log(this.state.eventMarker)
-   console.log(this.state.eventMarker)
+   console.log(this.state.markers)
    
    //console.log(this.state.eventMarkerCreator)
    return (
@@ -727,16 +757,33 @@ export default class Map extends React.Component {
            </View>
            {  this.state.status=="BarDiscription" ? <Text style={styles.openTimeStyle}>Ouverture:</Text>: null }
            
-           {  this.state.status=="BarDiscription" ? <Text style={styles.discriptionStyle} >{this.state.markerDisc}</Text>: null }
+           {  this.state.status=="BarDiscription" ?<StarRating
+        disabled={true}
+        maxStars={5}
+        rating={this.state.markerRating}
+      
+      />: null }
 
            { this.state.status=="createEvent"  ?  <Button
                   onPress={() => this.TimePicker.open()}
                   style={styles.timeButton}
                   buttonStyle= {{ backgroundColor:'#9C2C2C',}}
-            title="Heure"
-            titleStyle= {{color:'#CCA43B', textAlign:'center', }}
-            containerStyle={{marginTop:10, borderWidth: 3, borderColor: '#CCA43B',}} > </Button>: null }
+                  title="Heure"
+                  titleStyle= {{color:'#CCA43B', textAlign:'center', }}
+                  containerStyle={{marginTop:10, borderWidth: 3, borderColor: '#CCA43B',}} 
+                  value={this.state.eventTime}> </Button>: null }
            
+           { this.state.status=="createEvent"  ?  <Text style={styles.barName}>{this.state.eventTime}</Text>: null }
+
+           { this.state.status=="createEvent"  ?  <TimePicker
+          ref={ref => {
+            this.TimePicker = ref;
+          }}
+          onCancel={() => this.onCancel()}
+          onConfirm={(hour, minute) => this.onConfirm(hour, minute)}
+        />: null }
+
+
            {  this.state.status =="createEvent" ?<TimePicker
                                 ref={ref => {this.TimePicker = ref;}}
                                 onCancel={() => this.onCancel()}
@@ -751,8 +798,8 @@ export default class Map extends React.Component {
                                 labelStyle={{ marginLeft : 15}}
                                 multiline={true} 
                                 maxLength={150}
-                                onChangeText={(value) => this.setState({discCreate:value})}
-                                value={this.state.discCreate} />: null}
+                                onChangeText={(value) => this.setState({eventDescription:value})}
+                                value={this.state.eventDescription} />: null}
           
          
          
@@ -789,7 +836,7 @@ export default class Map extends React.Component {
             titleStyle= {{color:'#CCA43B', textAlign:'center', }}
             containerStyle={{ 
              borderWidth: 3, borderColor: '#CCA43B',}}
-             onPress={this.toggleModal}
+             onPress={this.navigateToNotification}
              
             />: null }
              
