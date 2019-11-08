@@ -7,6 +7,7 @@ console.ignoredYellowBox = ['Remote debugger'];
 YellowBox.ignoreWarnings([
     'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
 ]);
+import {connect} from 'react-redux';
 
 
 class chat extends React.Component {
@@ -65,7 +66,8 @@ class chat extends React.Component {
 }
 function mapStateToProps(state) {
 
-    console.log('je recois de mon reducer lid et username suivant : ',state.id.username)
+    console.log('test je recois de mon reducer lid et username suivant : ',state)
+    console.log(state);
 
     return { user: state.id.username }
   }

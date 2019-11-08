@@ -6,7 +6,8 @@ import * as Location from 'expo-location';
 import Modal from "react-native-modal";
 import { Header , Input, Button, } from "react-native-elements";
 import TimePicker from "react-native-24h-timepicker";
-import ToggleSwitch from 'rn-toggle-switch'
+import ToggleSwitch from 'rn-toggle-switch';
+
 
 
 
@@ -218,7 +219,7 @@ export default class Map extends React.Component {
    ]*/
    var swipe=["up", "down", "left", "right"]
     
-   
+   console.log(this.state.markerUri)
 
    if(this.state.dayMode===true){
      var mapStyle=[
@@ -862,7 +863,7 @@ export default class Map extends React.Component {
                   {  this.state.barEvent=="showBars" ?<View>
                    {this.state.markers.map(markers => (
             <Marker coordinate={{latitude: markers.latitude, longitude: markers.longitude}}
-                           pinColor={markers.pin}
+                           pinColor={'#CCA43B'}
                            title={markers.barName}
                            onPress={() => this.setMarker(markers)}
                            

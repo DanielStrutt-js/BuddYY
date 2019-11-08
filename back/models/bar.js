@@ -10,6 +10,7 @@ const barsSchema = mongoose.Schema({
     longitude: Number,
     latitude: Number,
     description: String,
+    rating: Number,
 });
 
 const barsModel = mongoose.model('bars', barsSchema);
