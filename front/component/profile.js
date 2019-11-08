@@ -63,7 +63,7 @@ class Profilescreen extends React.Component{
     //        console.log('Request failed in my Sign-Up Home request', error)
     //    });
     
-        fetch(`http://10.2.5.224:3000/users/newProfile?id=`+this.props.userIdfromStore, {
+        fetch(`http://10.2.5.226:3000/users/newProfile?id=`+this.props.userIdfromStore, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `userName=${this.state.userName}&job=${this.state.job}&drink=${this.state.drink}&hobby=${this.state.hobby}&bands=${this.state.bands}`,
@@ -259,7 +259,7 @@ askPermission = async () => {
     
 function signUpStateToProps(state) {
 
-    console.log('je sauvegarde dans mon reducer lid suivant : ',state)
+    console.log('je recupere dans mon reducer lid suivant : ',state)
 
     return { userIdfromStore: state.id }
   }
@@ -270,7 +270,7 @@ function userNameStateToProps(dispatch) {
 
     return {
         usernameClick: function(userName) { 
-            console.log('je recois de mon reducer le name suivant : ', userName)
+            console.log('je sauvegazrde de mon reducer le name suivant : ', userName)
             dispatch( {type: 'Profile', name: userName} )
 
     }
@@ -432,3 +432,5 @@ const styles = StyleSheet.create({
         fontSize: 21,
       },
     })
+
+    

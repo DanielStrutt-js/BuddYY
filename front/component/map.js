@@ -8,10 +8,11 @@ import { Header , Input, Button, } from "react-native-elements";
 import TimePicker from "react-native-24h-timepicker";
 import ToggleSwitch from 'rn-toggle-switch';
 import StarRating from 'react-native-star-rating';
+import {connect} from 'react-redux';
 
 
 
-export default class Map extends React.Component {
+class Map extends React.Component {
 
   
   
@@ -48,7 +49,8 @@ export default class Map extends React.Component {
         eventDescription: null,
         bars: null,
         eventCreator: null,
-        
+        userName: null,
+        markerId:null
       };
   
     }
@@ -56,7 +58,7 @@ export default class Map extends React.Component {
       componentWillMount() {
         var ctx=this;
         this._getLocationAsync();
-        fetch('http://10.2.5.224:3000/events/barList',{
+        fetch('http://10.2.5.226:3000/events/barList',{
            
         })
         .then(function(response) {
@@ -72,7 +74,7 @@ export default class Map extends React.Component {
           console.log(error)
         })
        
-        fetch('http://10.2.5.224:3000/events/eventList',{
+        fetch('http://10.2.5.226:3000/events/eventList',{
            
         })
         .then(function(response) {
@@ -158,6 +160,7 @@ export default class Map extends React.Component {
       this.setState({markerDisc: markers.description})
       this.setState({markerOpenTimes: markers.openTimes})
       this.setState({markerRating: markers.rating})
+      this.setState({markerId: markers._id})
       this.toggleModal()
        
     };
@@ -167,7 +170,7 @@ export default class Map extends React.Component {
       this.setState({eventMarkerUri: eventMarker.bars.barImg})
       this.setState({eventMarkerTime: eventMarker.eventTime})
       this.setState({eventMarkerParticipants: eventMarker.eventParticipants})
-      this.setState({eventMarkerCreator: eventMarker.eventCreator.userName})
+      
 
       this.toggleEventModal()
        
@@ -198,11 +201,12 @@ export default class Map extends React.Component {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body : `eventTime=${this.state.eventTime}&eventDescription=${this.state.eventDescription}&bars=${this.state.markerTitle}&eventCreator=${this.state.eventCreator}`,
+            body : `eventTime=${this.state.eventTime}&eventDescription=${this.state.eventDescription}&bars=${this.state.markerId}&eventCreator=${this.props.userIdfromStore}`,
 
           })
           .then((response) => response.json())
-          .then((event) => {
+          .then((data) => {
+           
                  
               //return event.json();
               
@@ -706,7 +710,7 @@ export default class Map extends React.Component {
    
     //console.log(this.state.markers)
    //console.log(this.state.eventMarker)
-   console.log(this.state.markers)
+   
    
    //console.log(this.state.eventMarkerCreator)
    return (
@@ -981,10 +985,9 @@ export default class Map extends React.Component {
       
     },
     stretch: {
-      flex: 1, 
-      height: undefined, 
-      width: undefined, 
-      resizeMode: 'cover' ,
+      width: "100%",
+      height: "100%",
+      resizeMode: 'stretch',
         
     },
     wrapper: {
@@ -1042,4 +1045,22 @@ export default class Map extends React.Component {
     }
   });
 
+  function createEventStateToProps(state) {
+
+    console.log('je recoupere dans mon reducer lid suivant : ',state)
+
+    return { userIdfromStore: state.id }
+  }
  
+ 
+
+
+
+
+
+    
+
+  export default connect(
+    createEventStateToProps,
+    null
+    )(Map);
