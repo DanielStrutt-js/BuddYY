@@ -34,7 +34,7 @@ export default class Notification extends React.Component {
     
     componentWillMount() {
      ctx=this;
-      fetch('http://10.2.5.219:3000/events/eventList',{
+      fetch('http://10.2.5.224:3000/events/eventList',{
          
       })
       .then(function(response) {
@@ -187,7 +187,9 @@ const SECTIONS = this.state.eventInfo.map(event => (
                 borderBottomWidth:3,
                 justifyContent: 'space-around',
             }}
-            />
+            >
+              
+            </Header>
             
             
         <ScrollView style={{height:"70%"}}

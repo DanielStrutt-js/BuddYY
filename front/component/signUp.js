@@ -105,12 +105,13 @@ render() {
                             placeholder='Mot de passe'
                             labelStyle={{ marginLeft : 15}}
                             onChangeText={(value) => this.setState({password:value})}
-                            value={this.state.password}/>
+                            value={this.state.password}
+                            secureTextEntry={true}/>
 
                     <TouchableOpacity >
                         <Text style={{ color: '#CCA43B', fontSize:14 , margin : 20 }}>Mot de passe oublié?</Text>
                     </TouchableOpacity>
-                    <ButtonHome Title='REJOINDRE' click={this.handleSubmit} errorMessage={'cet utilisateur existe déjà'}/>
+                    <ButtonHome Title='REJOINDRE' click={this.handleSubmit}/>
 
              </View>
            

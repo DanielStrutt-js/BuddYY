@@ -17,7 +17,7 @@ class chat extends React.Component {
     
     }
     componentDidMount(){
-        this.socket = socketIOClient("http://10.2.5.219:3000/");
+        this.socket = socketIOClient("http://10.2.5.224:3000/");
         this.socket.on('sendMessage', (message)=> {
             
             var messageListCopy = [...this.state.messageList];
