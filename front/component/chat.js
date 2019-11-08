@@ -17,7 +17,7 @@ class chat extends React.Component {
     
     }
     componentDidMount(){
-        this.socket = socketIOClient("http://10.2.5.224:3000/");
+        this.socket = socketIOClient("http://10.2.5.219:3000/");
         this.socket.on('sendMessage', (message)=> {
             
             var messageListCopy = [...this.state.messageList];
@@ -53,7 +53,7 @@ class chat extends React.Component {
         <KeyboardAvoidingView behavior="padding" enabled>
 
             <Input value={this.state.messageToSend} onChangeText={(messageToSend) => this.setState({messageToSend})} placeholder='your message'/>
-            <Button title="Send" onPress={()=> this.socket.emit("sendMessage", {message : this.state.messageToSend, user: this.props.user}) } /> 
+            <Button title="Send" onPress={()=> {console.log('Name: '+ this.props.name); this.socket.emit("sendMessage", {message : this.state.messageToSend, user: this.props.name}) }} /> 
 
         </KeyboardAvoidingView>
 
@@ -69,7 +69,7 @@ function mapStateToProps(state) {
     console.log('test je recois de mon reducer lid et username suivant : ',state)
     console.log(state);
 
-    return { user: state.id.username }
+    return { name: state.name }
   }
   
   export default connect(

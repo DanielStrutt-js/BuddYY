@@ -51,7 +51,7 @@ export default class Map extends React.Component {
       componentWillMount() {
         var ctx=this;
         this._getLocationAsync();
-        fetch('http://10.2.5.224:3000/events/barList',{
+        fetch('http://10.2.5.219:3000/events/barList',{
            
         })
         .then(function(response) {
@@ -67,7 +67,7 @@ export default class Map extends React.Component {
           console.log(error)
         })
        
-        fetch('http://10.2.5.224:3000/events/eventList',{
+        fetch('http://10.2.5.219:3000/events/eventList',{
            
         })
         .then(function(response) {

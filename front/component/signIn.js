@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Text,KeyboardAvoidingView } from 'react-native';
 import {Input, Button} from "react-native-elements";
 import HeaderHome from './header';
 import ButtonHome from './button';
@@ -33,7 +33,7 @@ handleSubmit=()=>{
                     this.props.navigation.navigate('Home')
                     }
                     else{
-                    this.props.onSignUpClick(user.user._id)
+                    this.props.onSignUpClick(user.user._id, user.user.userName)
                     this.props.navigation.navigate('Notification')
                 }
                 })
@@ -53,7 +53,7 @@ handleReturn=()=>{
 
 render() {
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
             <HeaderHome click={this.handleReturn} />
              <View style={{ borderColor :'#CCA43B', margin:7, padding:15, borderWidth:3, flex:1 , alignItems:'center' }}>
                     <View style={styles.logo}>
@@ -87,7 +87,7 @@ render() {
              </View>
             
                     
-        </View>
+             </KeyboardAvoidingView> 
     );
 }
 }
@@ -97,9 +97,10 @@ function signInStateToProps(dispatch) {
     
 
     return {
-        onSignUpClick: function(iduser) { 
+        onSignUpClick: function(iduser ,name) { 
             console.log('je recois de mon reducer lid suivant : ', iduser)
-            dispatch( {type: 'signIn', id: iduser} )
+            dispatch( {type: 'signIn', id: iduser} );
+            dispatch( {type: 'Profile', name} )
     
     }
   }
