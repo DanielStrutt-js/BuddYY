@@ -19,7 +19,7 @@ handleSubmit=()=>{
     
     console.log('clickonpress')
 
-                fetch(`http://10.2.5.224:3000/users/signIn?`+`email=${this.state.email}&password=${this.state.password}`, {
+                fetch(`http://10.2.5.219:3000/users/signIn?`+`email=${this.state.email}&password=${this.state.password}`, {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

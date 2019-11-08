@@ -52,7 +52,7 @@ class chat extends React.Component {
         <KeyboardAvoidingView behavior="padding" enabled>
 
             <Input value={this.state.messageToSend} onChangeText={(messageToSend) => this.setState({messageToSend})} placeholder='your message'/>
-            <Button title="Send" onPress={()=> this.socket.emit("sendMessage", {message : this.state.messageToSend, user: 'Aïnes'}) } /> 
+            <Button title="Send" onPress={()=> this.socket.emit("sendMessage", {message : this.state.messageToSend, user: this.props.user}) } /> 
 
         </KeyboardAvoidingView>
 
@@ -63,5 +63,14 @@ class chat extends React.Component {
 );
     }
 }
+function mapStateToProps(state) {
 
-export default chat;
+    console.log('je recois de mon reducer lid et username suivant : ',state.id.username)
+
+    return { user: state.id.username }
+  }
+  
+  export default connect(
+      mapStateToProps,
+      null
+  )(chat);

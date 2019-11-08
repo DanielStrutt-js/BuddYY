@@ -54,7 +54,7 @@ export default class Profilescreen extends React.Component{
     //        console.log('Request failed in my Sign-Up Home request', error)
     //    });
     
-        fetch(`http://10.2.5.224:3000/users/newProfile?id=`+this.props.userIdfromStore, {
+        fetch(`http://10.2.5.219:3000/users/newProfile?id=`+this.props.userIdfromStore, {
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `userName=${this.state.userName}&job=${this.state.job}&drink=${this.state.drink}&hobby=${this.state.hobby}&bands=${this.state.bands}`,
