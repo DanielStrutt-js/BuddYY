@@ -56,7 +56,7 @@ export default class Map extends React.Component {
       componentWillMount() {
         var ctx=this;
         this._getLocationAsync();
-        fetch('http://10.2.5.226:3000/events/barList',{
+        fetch('http://10.2.5.224:3000/events/barList',{
            
         })
         .then(function(response) {
@@ -72,7 +72,7 @@ export default class Map extends React.Component {
           console.log(error)
         })
        
-        fetch('http://10.2.5.226:3000/events/eventList',{
+        fetch('http://10.2.5.224:3000/events/eventList',{
            
         })
         .then(function(response) {
@@ -981,9 +981,10 @@ export default class Map extends React.Component {
       
     },
     stretch: {
-      width: "100%",
-      height: "100%",
-      resizeMode: 'stretch',
+      flex: 1, 
+      height: undefined, 
+      width: undefined, 
+      resizeMode: 'cover' ,
         
     },
     wrapper: {
