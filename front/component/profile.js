@@ -23,6 +23,8 @@ class Profilescreen extends React.Component{
       
     }
 
+    
+
     handleReturn=()=>{
 
         console.log('clickonpress2')
@@ -259,7 +261,7 @@ askPermission = async () => {
     
 function signUpStateToProps(state) {
 
-    console.log('je sauvegarde dans mon reducer lid suivant : ',state)
+    console.log('je recupere dans mon reducer lid suivant : ',state)
 
     return { userIdfromStore: state.id }
   }
@@ -270,7 +272,7 @@ function userNameStateToProps(dispatch) {
 
     return {
         usernameClick: function(userName) { 
-            console.log('je recois de mon reducer le name suivant : ', userName)
+            console.log('je sauvegazrde de mon reducer le name suivant : ', userName)
             dispatch( {type: 'Profile', name: userName} )
 
     }
@@ -432,3 +434,5 @@ const styles = StyleSheet.create({
         fontSize: 21,
       },
     })
+
+    

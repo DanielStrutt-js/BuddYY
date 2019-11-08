@@ -7,12 +7,13 @@ import ButtonCustom from './button';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
+import {connect} from 'react-redux';
 
 
 
 
 
-export default class Notification extends React.Component {
+class Notification extends React.Component {
 
 
     constructor(){
@@ -24,15 +25,24 @@ export default class Notification extends React.Component {
                       eventInfo:[],
                       eventBarName:null,
                       eventDiscription:null,
+                      
                     
                     };
         this.handleSubmit= this.handleSubmit.bind(this)
         this.chatButton= this.chatButton.bind(this)
+        this.updateButton= this.updateButton.bind(this)
     }
 
 
     
-    componentWillMount() {
+    componentDidMount() {
+
+      this.callList()
+    }
+    
+      
+  callList(){
+      console.log('event')
      ctx=this;
       fetch('http://10.2.5.219:3000/events/eventList',{
          
@@ -58,7 +68,7 @@ export default class Notification extends React.Component {
 
     };
 
-
+  
     toggleExpanded = () => {
         this.setState({ collapsed: !this.state.collapsed });
       };
@@ -150,7 +160,10 @@ export default class Notification extends React.Component {
         this.props.navigation.navigate('Map')}
 
         
-    
+        updateButton(){
+          console.log('click bordel')
+          this.forceUpdate()
+        this.callList()}
 
     render(){
 
@@ -169,6 +182,7 @@ const SECTIONS = this.state.eventInfo.map(event => (
     content: event.eventDescription,
     time: event.eventTime,
     people:event.eventParticipants
+    
   }
   ));
   console.log('reponse du content --->', SECTIONS)
@@ -190,6 +204,16 @@ const SECTIONS = this.state.eventInfo.map(event => (
             >
               
             </Header>
+
+            <Button 
+            buttonStyle= {{ backgroundColor:'#9C2C2C',}}
+            title="refresh"
+            titleStyle= {{color:'#CCA43B', textAlign:'center', }}
+            containerStyle={{ 
+             borderWidth: 3, borderColor: '#CCA43B',}}
+             onPress={this.updateButton}
+             
+            />
             
             
         <ScrollView style={{height:"70%"}}
@@ -316,3 +340,22 @@ const styles = StyleSheet.create({
       },
     
     })
+    function createEventListStateToProps(state) {
+
+      console.log('je recoupere dans mon reducer lid suivant : ',state)
+  
+      return { userIdfromStore: state.id }
+    }
+   
+   
+  
+  
+  
+  
+  
+      
+  
+    export default connect(
+      createEventListStateToProps,
+      null
+      )(Notification);
